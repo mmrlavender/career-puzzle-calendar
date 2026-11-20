@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2027 生涯解谜日历｜三月</title>
+<style>
+:root{
+  --ink:#1E2A24; --green:#0F3D2E; --green-2:#1C5B45; --paper:#F5F1E6;
+  --card:#FFFDF7; --ochre:#B4553C; --gold:#C9A227; --mute:#6B7A70; --line:#DCD5C4;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--paper); color:var(--ink);
+  font-family:"Noto Sans SC","Source Han Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+  font-size:15px; line-height:1.75; -webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(rgba(15,61,46,.045) 1px, transparent 1px);
+  background-size:22px 22px;
+}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px 80px}
+header.hero{padding:56px 0 28px;border-bottom:2px solid var(--green);position:relative}
+.hero-top{display:flex;align-items:flex-start;gap:28px;flex-wrap:wrap}
+.hero-svg{flex:0 0 132px}
+h1{font-family:"Noto Serif SC","Source Han Serif SC",Georgia,"Songti SC",serif;
+   font-size:38px;line-height:1.25;margin:0 0 8px;letter-spacing:.02em;color:var(--green)}
+.sub{color:var(--mute);font-size:14px;letter-spacing:.08em}
+.meta-line{margin-top:14px;display:flex;gap:10px;flex-wrap:wrap}
+.tag{display:inline-block;border:1px solid var(--line);background:var(--card);
+     padding:3px 10px;border-radius:999px;font-size:12.5px;color:var(--green-2)}
+.tag b{color:var(--ochre);font-weight:600}
+.controls{position:sticky;top:0;z-index:20;background:rgba(245,241,230,.94);
+  backdrop-filter:blur(6px);border-bottom:1px solid var(--line);margin-bottom:24px}
+.controls-in{max-width:1120px;margin:0 auto;padding:10px 20px;display:flex;gap:10px;
+  align-items:center;flex-wrap:wrap}
+.nav-months{display:flex;gap:6px;flex-wrap:wrap}
+.nav-months a{font-size:13px;color:var(--green-2);text-decoration:none;padding:4px 9px;
+  border:1px solid var(--line);border-radius:6px;background:var(--card)}
+.nav-months a:hover{border-color:var(--green);color:var(--green)}
+.nav-months a.rev{border-color:var(--gold);color:#7a5f10}
+#q{flex:1 1 200px;min-width:160px;padding:7px 12px;border:1px solid var(--line);
+   border-radius:8px;background:var(--card);font-size:14px;color:var(--ink);outline:none}
+#q:focus{border-color:var(--green)}
+section.month{margin:44px 0 0;scroll-margin-top:64px}
+.month-head{display:flex;align-items:baseline;gap:14px;border-bottom:1px solid var(--line);
+  padding-bottom:8px;margin-bottom:18px}
+.month-head .num{font-size:13px;letter-spacing:.2em;color:var(--mute)}
+.month-head h2{font-family:"Noto Serif SC",serif;font-size:26px;margin:0;color:var(--green)}
+.month-head .ch{font-family:"Noto Serif SC",serif;font-size:34px;color:var(--ochre);
+  margin-left:auto;line-height:1}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;
+  padding:16px 18px 14px;position:relative;box-shadow:0 1px 0 rgba(30,42,36,.04)}
+.card.lv-L2{border-left:4px solid var(--green-2)}
+.card.lv-L3{border-left:4px solid var(--ochre)}
+.card.lv-L4{border-left:4px solid #7C6AA8}
+.card.lv-REVIEW{border-left:4px solid var(--gold);background:#FFFBF0}
+.card.review-dot:after{content:"复盘";position:absolute;top:12px;right:14px;font-size:11px;
+  color:#7a5f10;border:1px solid var(--gold);border-radius:999px;padding:1px 8px}
+.card-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.date{font-family:"Noto Serif SC",serif;font-size:19px;color:var(--green);font-weight:600}
+.wd{font-size:12px;color:var(--mute)}
+.badge{font-size:11.5px;padding:1px 8px;border-radius:999px;border:1px solid var(--line);
+  color:var(--mute);background:#fff}
+.badge.type{color:var(--green-2);border-color:#CBDDD4}
+.badge.code{color:#8a5a00;border-color:#E7D49B;background:#FFF9E8}
+.badge.lv{color:#fff;background:var(--green);border-color:var(--green)}
+.badge.lv.L2{background:var(--green-2)}
+.badge.lv.L3{background:var(--ochre);border-color:var(--ochre)}
+.badge.lv.L4{background:#7C6AA8;border-color:#7C6AA8}
+.badge.lv.REVIEW{background:var(--gold);border-color:var(--gold);color:#3a2f00}
+.fest{font-size:12.5px;color:var(--ochre)}
+.carry{font-size:13.5px;color:var(--mute);margin:2px 0 10px}
+.qtext{white-space:pre-wrap;font-size:14.5px}
+.qtext strong{color:var(--green)}
+.btns{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+button{font:inherit;font-size:13px;padding:5px 12px;border-radius:7px;cursor:pointer;
+  border:1px solid var(--green);background:#fff;color:var(--green)}
+button:hover{background:var(--green);color:#fff}
+button.ghost{border-color:var(--line);color:var(--mute)}
+button.ghost:hover{background:#eee7d6;color:var(--ink);border-color:var(--line)}
+.panel{margin-top:12px;border-top:1px dashed var(--line);padding-top:10px;display:none}
+.panel.on{display:block}
+.panel h4{margin:0 0 6px;font-size:12.5px;letter-spacing:.12em;color:var(--mute);font-weight:600}
+.hint{display:none;background:#F0F5F1;border-left:3px solid var(--green-2);
+  padding:7px 11px;border-radius:0 7px 7px 0;margin:6px 0;font-size:14px}
+.hint.on{display:block}
+.answer{white-space:pre-wrap;font-size:14px;background:#FFF9E8;border-left:3px solid var(--gold);
+  padding:9px 12px;border-radius:0 7px 7px 0}
+.record{font-size:13.5px;color:var(--green-2);margin-top:10px;padding-left:2px}
+.record:before{content:"探索记录 · ";color:var(--mute);font-size:12px}
+.migrate{font-size:13px;color:var(--mute);margin-top:6px;border-top:1px dotted var(--line);
+  padding-top:6px;white-space:pre-wrap}
+.migrate:before{content:"通用迁移 · ";color:var(--ochre);font-size:12px}
+.note{font-size:13px;color:var(--mute);font-style:normal}
+.empty{padding:40px;text-align:center;color:var(--mute)}
+footer{margin-top:64px;border-top:2px solid var(--green);padding-top:18px;
+  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--mute)}
+.index-list{list-style:none;padding:0;margin:18px 0 0}
+.index-list li{padding:10px 0;border-bottom:1px solid var(--line)}
+.index-list a{color:var(--green);text-decoration:none;font-size:16px;font-family:"Noto Serif SC",serif}
+.index-list a:hover{color:var(--ochre)}
+.index-list span{color:var(--mute);font-size:13px;margin-left:10px}
+@media (max-width:640px){
+  h1{font-size:26px} .hero-svg{display:none} .month-head .ch{font-size:26px}
+  .cards{grid-template-columns:1fr} header.hero{padding-top:32px}
+}
+@media print{
+  body{background:#fff;font-size:11pt} .controls,#q,button{display:none!important}
+  .panel{display:block!important} .hint{display:block!important}
+  .card{break-inside:avoid;box-shadow:none} section.month{break-before:page}
+  .cards{grid-template-columns:1fr 1fr}
+  a{color:inherit;text-decoration:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero">
+  <div class="hero-top">
+    <div class="hero-svg"><svg width="132" height="132" viewBox="0 0 132 132" role="img" aria-label="全年星盘">
+  <circle cx="66" cy="66" r="46" fill="none" stroke="#0F3D2E" stroke-width="1" stroke-dasharray="2 5" opacity=".55"/>
+  <circle cx="66" cy="66" r="34" fill="none" stroke="#DCD5C4" stroke-width="1"/>
+  <text x="66" y="68" font-size="15" text-anchor="middle" fill="#0F3D2E" font-family="serif">2027</text>
+  <text x="66" y="84" font-size="9" text-anchor="middle" fill="#6B7A70" letter-spacing="1">解谜</text>
+  <circle cx="66.0" cy="20.0" r="3.2" fill="#CBD5CC" stroke="none" stroke-width="1"/><circle cx="89.0" cy="26.2" r="3.2" fill="#CBD5CC" stroke="none" stroke-width="1"/><circle cx="105.8" cy="43.0" r="5" fill="#B4553C" stroke="#8f3f2b" stroke-width="1"/><text x="118.8" y="39.5" font-size="9.5" text-anchor="middle" fill="#0F3D2E" font-family="serif">自</text><circle cx="112.0" cy="66.0" r="3.2" fill="#CBD5CC" stroke="none" stroke-width="1"/><circle cx="105.8" cy="89.0" r="3.2" fill="#CBD5CC" stroke="none" stroke-width="1"/><circle cx="89.0" cy="105.8" r="3.2" fill="#CBD5CC" stroke="none" stroke-width="1"/><circle cx="66.0" cy="112.0" r="3.2" fill="#CBD5CC" stroke="none" stroke-width="1"/><circle cx="43.0" cy="105.8" r="3.2" fill="#CBD5CC" stroke="none" stroke-width="1"/><circle cx="26.2" cy="89.0" r="3.2" fill="#CBD5CC" stroke="none" stroke-width="1"/><circle cx="20.0" cy="66.0" r="3.2" fill="#CBD5CC" stroke="none" stroke-width="1"/><circle cx="26.2" cy="43.0" r="3.2" fill="#CBD5CC" stroke="none" stroke-width="1"/><circle cx="43.0" cy="26.2" r="3.2" fill="#CBD5CC" stroke="none" stroke-width="1"/>
+</svg></div>
+    <div style="flex:1 1 320px;min-width:280px">
+      <h1>2027 生涯解谜日历｜三月</h1>
+      <div class="sub">福建幼儿师范高等专科学校 社团生涯教育　三月</div>
+      <div class="meta-line" id="stats"></div>
+    </div>
+  </div>
+</header>
+
+<div class="controls"><div class="controls-in">
+  <div class="nav-months" id="nav"></div>
+  <input id="q" type="search" placeholder="搜题干、答案、题型、节日、专业…">
+</div></div>
+
+<main id="main"></main>
+
+<footer>
+  <div>三月 · 共 31 天 · 生成于 2026/11/19 18:44:57</div>
+  <div>数据来源：生涯解谜日历全年版数据文件（calendar_2027.json）</div>
+</footer>
+</div>
+
+<script>
+const DATA = {"year":2027,"title":"2027 生涯解谜日历","subtitle":"福建幼儿师范高等专科学校 社团生涯教育","month_theme":{"1":"看","2":"见","3":"自","4":"澄","5":"清","6":"价","7":"探","8":"索","9":"世","10":"走","11":"出","12":"一"},"meta":{"scope":"month:3","scope_label":"三月"},"days":[{"date":"2027-03-01","month":3,"day":1,"weekday":"一","level":"L1","type":"找不同","tag":"找不同","review":false,"carry":"三月第一天，主题换成「我自己的速度」。先看两种「快」。","question":"下面两段写同一件事（一周做完一个作业），找三处不同，并说明哪一种快是真的快：\n  A「我三天就写完了，后面几天都在改，改到最后一晚还在改。」\n  B「我先花半天把要交的东西列清楚，然后每天做一块，最后一晚没动。」","answer":"三处不同：① A 用「写完」当终点，B 用「列清楚」当起点；② A 的时间是压缩的（三天写完，后面全在返工），B 的时间是摊开的；③ A 的最后一晚在工作，B 的最后一晚在休息。真快是 B——它的总时间更长，但返工为零。","hint_raw":"① 看哪一段里有「还在改」。② 快不等于短，等于不返工。③ 见答案，注意 B 的第一件事是「列清楚」而不是「开始写」。","record":"我上一次赶工，时间花在做上，还是花在返工上。","migrate":"","out_char":"","hints":["看哪一段里有「还在改」","快不等于短，等于不返工","见答案，注意 B 的第一件事是「列清楚」而不是「开始写」"],"code":"自"},{"date":"2027-03-02","month":3,"day":2,"weekday":"二","level":"L1","type":"隐藏词","tag":"隐藏词","review":false,"carry":"昨天算清了返工，今天在一段自述里找三个词。","question":"下面这段话里藏着三个词，找出来，并指出哪一个在偷走时间：\n  「我每天早上都想着今天要干很多事，然后先收拾桌子、泡杯茶、看看消息，一上午就过去了。下午觉得来不及了，赶紧开始，做到一半又觉得做得不好，就重新来过。」","answer":"三个词：先收拾（准备）、来不及（焦虑）、重新来过（返工）。偷走时间的是「先收拾」——它是典型的准备型拖延：用一件看似正当的小事替换掉真正要紧的那一件。第二个耗损是「重新来过」，因为标准没在开始时定下。","hint_raw":"① 有一个动作看起来很勤快，其实是在逃。② 「来不及」出现的时候，往往是半天已经过去。③ 见答案，注意「重新来过」的原因是标准没定。","record":"我的「先收拾」是什么，通常出现在几点。","migrate":"","out_char":"","hints":["有一个动作看起来很勤快，其实是在逃","「来不及」出现的时候，往往是半天已经过去","见答案，注意「重新来过」的原因是标准没定"],"code":"自"},{"date":"2027-03-03","month":3,"day":3,"weekday":"三","level":"L1","type":"填字格","tag":"填字格","review":false,"carry":"找到了偷时间的动作，今天把它填成一条替换规则。","question":"横填五格，每格两字：① 起床后先做___（最难/最易/随便）的那一件 ② 只做___（二十/三十/十）分钟 ③ 手机放___（远/手边/口袋）④ 卡住就___（记/跳/问）⑤ 到点就___（停/续/换）。","answer":"参考：最难／二十／远／记／停。这条规则的作用不是提高效率，是打破「先收拾」的循环：一起床先碰最难的那件二十分钟，把一天的顺序反过来。第 3 格（手机放远）不是意志问题，是环境问题。","hint_raw":"① 第 1 格要和昨天找到的「先收拾」相反。② 第 5 格如果不填「停」，第 2 格就没有意义。③ 见答案，注意第 3 格为什么用环境而不是自律来解决。","record":"我能不能明天先做二十分钟最难的那件事。","migrate":"","out_char":"","hints":["第 1 格要和昨天找到的「先收拾」相反","第 5 格如果不填「停」，第 2 格就没有意义","见答案，注意第 3 格为什么用环境而不是自律来解决"],"code":"自"},{"date":"2027-03-04","month":3,"day":4,"weekday":"四","level":"L1","type":"九宫格","tag":"九宫格","review":false,"carry":"规则有了，今天看「我到底被什么推着走」。","question":"中心格写「我开始做一件事的原因」。八格填八个真实原因，例如：怕被说、想被夸、自己好奇、答应了别人、不想落后、觉得应该、真喜欢、无聊。","answer":"无标准答案。填完后分类：把「外部原因」（怕被说、想被夸、不想落后、答应了别人、觉得应该）和「内部原因」（好奇、真喜欢、无聊）分开数。外部原因占比超过 6 格，说明动力主要来自别人；这种动力能撑一阵，撑不过一个学期。","hint_raw":"① 先按真实情况填，不要填「应该有的原因」。② 数一数有几格跟别人有关。③ 见答案，看那一两格内部原因出现在什么事上。","record":"我最近做成的三件事，各有几格是内部原因。","migrate":"","out_char":"","hints":["先按真实情况填，不要填「应该有的原因」","数一数有几格跟别人有关","见答案，看那一两格内部原因出现在什么事上"],"code":"自"},{"date":"2027-03-05","month":3,"day":5,"weekday":"五","level":"L1","type":"密文破译","tag":"学雷锋日｜密文破译","review":false,"carry":"昨天看了动力，今天破三句「我来帮你」。","question":"请破译下面三句话真正在说的事，并指出哪一句帮得最值：\n  A「我来帮你弄吧，你别弄了。」\n  B「你先弄，我看着，卡住了我再说。」\n  C「这个我不会，但我在旁边陪你弄。」","answer":"A 是代劳，短期最快，长期让你失去能力；B 是教学式帮助，对方保留了你动手的机会，帮得最值；C 是陪伴，解决不了技术问题，但能撑住情绪。三句里，B 最难得——它需要对方忍住不接手。","hint_raw":"① 有一句里出现了「你先」。② 帮得最值的那一句，帮的人反而最省力。③ 见答案，想想自己帮人时，最常用哪一句。","record":"我帮别人时，是不是常常忍不住接手。","migrate":"","out_char":"","hints":["有一句里出现了「你先」","帮得最值的那一句，帮的人反而最省力","见答案，想想自己帮人时，最常用哪一句"],"code":"自"},{"date":"2027-03-06","month":3,"day":6,"weekday":"六","level":"L1","type":"排序题","tag":"惊蛰｜排序题","review":false,"carry":"昨天学了「忍住不接手」，今天排一次「一个乱摊子怎么收」。","question":"手上同时有四件事在响（作业、活动、家里的电话、一个想回又不敢回的消息），五个动作请排序：A 把四件事写在一张纸上 B 标出各自的死线 C 先做死线最近的一件 D 把家里那通电话打了 E 把不敢回的消息放着，定一个时间再回。","answer":"参考 A→B→D→C→E。A、B 是把「响」变成「清单」，是最先必须做的；D 提前，因为家里的电话拖一天，情绪成本翻倍；E 允许「放着」，但要定时间——不定时间的「放着」会变成一直想着。","hint_raw":"① 有两个动作必须在一分钟内完成。② 有一件事拖的时间越长，代价越大，且不是时间代价。③ 见答案，注意 E 为什么不是「马上回」。","record":"我心里那件「放着」的事，定了时间吗。","migrate":"","out_char":"","hints":["有两个动作必须在一分钟内完成","有一件事拖的时间越长，代价越大，且不是时间代价","见答案，注意 E 为什么不是「马上回」"],"code":"自"},{"date":"2027-03-07","month":3,"day":7,"weekday":"日","level":"L1","type":"配对连线","tag":"配对连线","review":false,"carry":"乱摊子收了，今天连「四类待办该放在哪」。","question":"左边四种事，右边四种处理方式，请连线：① 两分钟能做完的 ② 要别人配合的 ③ 一想就烦的 ④ 不知道怎么做才对的 —— A 立刻做掉 B 拆出第一步，只做第一步 C 现在就发消息约人 D 先找一个做过的人问十分钟。","answer":"参考 ①—A、②—C、③—B、④—D。③—B 是关键：烦的事不是难，是没有开头；把它拆成「第一步」后，烦的感觉会掉一半。④—D 的理由：不知道怎么做的正确反应是问，而不是硬想。","hint_raw":"① 有一类事处理方式只有「做掉」。② 最烦的那一类，需要的是「第一步」而不是「决心」。③ 见答案，注意②为什么是「现在就发消息」。","record":"我最常拖的是哪一类，用的是不是对应的方式。","migrate":"","out_char":"","hints":["有一类事处理方式只有「做掉」","最烦的那一类，需要的是「第一步」而不是「决心」","见答案，注意②为什么是「现在就发消息」"],"code":"自"},{"date":"2027-03-08","month":3,"day":8,"weekday":"一","level":"L2","type":"一问","tag":"L2 一问：国际妇女节","review":false,"carry":"","question":"- 今日一问（不设标准答案，写下你的第一反应）：你身边职业女性身上，你最想学的一样是什么。","answer":"","hint_raw":"","record":"","migrate":"","out_char":"","hints":[],"code":"自"},{"date":"2027-03-09","month":3,"day":9,"weekday":"二","level":"L1","type":"迷宫","tag":"龙抬头（二月二）｜迷宫","review":false,"carry":"昨天看了一位职业女性，今天走一条「我也想过那样的日子」的路。","question":"你羡慕一个人的状态，有四个岔口，每岔只有一条能真的靠近她：岔口一 羡慕她的结果／羡慕她的日常；岔口二 打听她怎么做到的／猜她运气好；岔口三 从她的一个习惯开始／从她的一天开始；岔口四 做到一半发现太累就停／做到一半发现太累就减量。","answer":"参考路径：羡慕她的日常→打听她怎么做到的→从她的一个习惯开始→太累就减量。第一格分水岭：羡慕结果会让人焦虑，羡慕日常会让人有动作。第三格选「一个习惯」而不是「一天」，因为一天的量学不来。","hint_raw":"① 有一个岔口问的是「她的哪一部分值得羡慕」。② 复制一整天的作息，几乎一定失败。③ 见答案，注意最后一格为什么是「减量」不是「停」。","record":"我羡慕的那个人，她的哪一个习惯我可以先学。","migrate":"","out_char":"","hints":["有一个岔口问的是「她的哪一部分值得羡慕」","复制一整天的作息，几乎一定失败","见答案，注意最后一格为什么是「减量」不是「停」"],"code":"自"},{"date":"2027-03-10","month":3,"day":10,"weekday":"三","level":"L1","type":"找不同","tag":"找不同","review":false,"carry":"昨天学了一个习惯，今天看两种「努力」。","question":"下面两段写备考（同一个证），找三处不同，并指出哪一段更可能通过：\n  A「我每天学到十二点，笔记写了三本，题也刷了很多，但一模拟考就慌。」\n  B「我每天学两小时，只做一件事：把错题的原因写下来。模拟考前我把错题本看了一遍。」","answer":"三处不同：① A 用时长计量，B 用「一件事」计量；② A 的产出是笔记和题量，B 的产出是「错的原因」；③ A 的模拟考是检验，B 的模拟考是复习。更可能通过的是 B——它把学习变成了可以复用的东西（错题原因）。","hint_raw":"① 看哪一段里有「原因」两个字。② 笔记多不等于学会了。③ 见答案，注意 B 的两小时里没有任何「刷题」的量。","record":"我的努力，能不能被我自己说清楚做成了什么。","migrate":"","out_char":"","hints":["看哪一段里有「原因」两个字","笔记多不等于学会了","见答案，注意 B 的两小时里没有任何「刷题」的量"],"code":"自"},{"date":"2027-03-11","month":3,"day":11,"weekday":"四","level":"L1","type":"隐藏词","tag":"隐藏词","review":false,"carry":"昨天看清了努力的形状，今天在一段「自我评价」里找词。","question":"下面这段话里藏着三个词，找出来，并指出哪一个是最需要改的：\n  「我这人就是不细心，从小到大都这样。做事容易毛躁，也不太会坚持。不过我觉得我还挺乐观的，遇到事不太会垮。」","answer":"三个词：从小到大（固化）、毛躁（性格化）、还挺乐观（资源）。最需要改的是「从小到大都这样」——它把一件可以练的事说成了天生的事，一旦这么说，就没有改的可能了。「毛躁」如果改成「我在最后检查这一步容易漏」，就变成可操作的问题。","hint_raw":"① 有一个词在时间上做了手脚。② 把性格描述改成动作描述，问题才有解。③ 见答案，试着自己那句「我就是……的人」改成一件具体的事。","record":"我给自己下过哪些「从小就这样」的结论。","migrate":"","out_char":"","hints":["有一个词在时间上做了手脚","把性格描述改成动作描述，问题才有解","见答案，试着自己那句「我就是……的人」改成一件具体的事"],"code":"自"},{"date":"2027-03-12","month":3,"day":12,"weekday":"五","level":"L1","type":"配对连线","tag":"植树节｜配对连线","review":false,"carry":"昨天松了一块「天生如此」的土，今天连「我该种什么」。","question":"左边五种能力，右边五种最省力的练法，请连线：① 说话不慌 ② 把事做完 ③ 听懂别人的意思 ④ 遇事不崩 ⑤ 和人开口求帮助 —— A 每次只做一半，做完再定下一半 B 每天对着手机录一分钟再自己听 C 先复述对方的话再回应 D 先练一件必然失败的小事 E 每周问一个人一件小事。","answer":"参考 ①—B、②—A、③—C、④—D、⑤—E。④—D 最反常识：抗挫不是靠鼓励练出来的，是靠反复经历「失败也没事」练出来的，所以要主动设计小失败。⑤—E 的理由：求帮助是频次问题，不是技巧问题。","hint_raw":"① 有一项要主动让自己失败。② 「听懂」的练法里有「复述」。③ 见答案，注意②为什么只做一半。","record":"这五项里，我最想先种哪一项。","migrate":"","out_char":"","hints":["有一项要主动让自己失败","「听懂」的练法里有「复述」","见答案，注意②为什么只做一半"],"code":"自"},{"date":"2027-03-13","month":3,"day":13,"weekday":"六","level":"L1","type":"九宫格","tag":"九宫格","review":false,"carry":"选好要种的一项，今天给它九格。","question":"中心格写「我要练的那一项」。八格填：我现在的水平（一句话）、比我高一点的人是怎么做的、我一周能花多少分钟、第一个可以做的小动作、谁会知道我在练、练砸了会怎样、练成了对我有什么用、一个月后我怎么知道有没有进步。","answer":"无标准答案。最容易被漏掉的是第 6 格「练砸了会怎样」和第 8 格「怎么知道有没有进步」。前者不写清楚，一失败就会停；后者不写清楚，练一个月会觉得白练。","hint_raw":"① 先填第 8 格，它是验收标准。② 第 3 格的分钟数要小到不可能失败。③ 见答案，注意第 4 格必须是「一个」小动作。","record":"我一个月后怎么判断这件事有没有成。","migrate":"","out_char":"","hints":["先填第 8 格，它是验收标准","第 3 格的分钟数要小到不可能失败","见答案，注意第 4 格必须是「一个」小动作"],"code":"自"},{"date":"2027-03-14","month":3,"day":14,"weekday":"日","level":"L3","type":"专业日","tag":"L3 专业日：小学数学教育","review":false,"carry":"前一天 L1 记录的是「我最擅长的一件小事」，今天把镜头切到课堂上：一件你以为只有一种做法的事，其实有好几条路。","question":"横格里填「12 个苹果平均分给 4 个人」的五种解法名称，纵格里填每种解法「描述的是什么关系」：\n  - 横 ① 一个一个分（等分除）② 每 4 个装一袋能装几袋（包含除）③ 每人分到总数的几分之几（分数）④ 12 是 4 的几倍（倍）⑤ 设每人 x 个列等式（方程）\n  - 纵 A 描述「总量被分成几份」　B 描述「两个量的比」　C 描述「未知量与已知量的相等关系」","answer":"横向五格依次为等分除、包含除、分数、倍、方程；纵向 A＝①②、B＝④、C＝⑤。同一个答案 3，被五种不同的数量关系说出来。孩子说「不会」，往往不是算不出 3，而是没听懂老师这次用的是哪一种关系。","hint_raw":"①先不管答案，只看「这道题在问哪一种关系」　②有三格描述的是「分几份」，两格讲的是「谁是谁的几倍」　③见答案全序","record":"我上一次「听不懂」，是听不懂内容，还是听不懂对方用的是哪套说法","migrate":"非本专业学生在自己的专业里找一个「结果一样但路径不同」的例子（同一份教案、同一段代码、同一幅画，都有不止一种做法）。","out_char":"","college":"人文科学学院","profession":"小学数学教育","hints":["先不管答案，只看「这道题在问哪一种关系」","有三格描述的是「分几份」，两格讲的是「谁是谁的几倍」","见答案全序"],"code":"自"},{"date":"2027-03-15","month":3,"day":15,"weekday":"一","level":"L1","type":"密文破译","tag":"消费者权益日｜密文破译","review":false,"carry":"专业日之后回到自己，今天破三句「我被坑过」。","question":"请破译下面三句话里真正的问题出在哪一步，并指出哪一步最该在事前做：\n  A「当时没问清楚价格，结账才发现多了两百。」\n  B「合同我签了，后来才看到有一行小字。」\n  C「他们说可以退，我去了三次都说不符合条件。」","answer":"A 的问题在「事前没确认关键数字」；B 的问题在「签字前没读完全文」；C 的问题在「没有留下书面凭证」。最该在事前做的是 A 的那一步：把关键条件问成一句可以复述的话（多少钱、包含什么、什么情况不退）。","hint_raw":"① 三件事的共同点是「信息不对称」。② 只有一件事可以做在付钱之前。③ 见答案，记住三个必问：多少钱、含什么、什么情况不退。","record":"我上一次吃哑巴亏，是缺了哪一步。","migrate":"","out_char":"","hints":["三件事的共同点是「信息不对称」","只有一件事可以做在付钱之前","见答案，记住三个必问：多少钱、含什么、什么情况不退"],"code":"自"},{"date":"2027-03-16","month":3,"day":16,"weekday":"二","level":"L3","type":"专业日","tag":"L3 专业日：社会工作","review":false,"carry":"昨天你练的是「一题多路」，今天面对的是另一种题：路只有一条，但**先后顺序错了就会出事**。","question":"一名学生在你面前说了一句「我不想活了」。桌上有六个动作，请排序，并回答：如果只能做四件事，哪两件绝不能省？\n\n  - A 说「我保证不告诉任何人，你放心说」\n  - B 保持在场、不离开，直接问「你现在有具体的想法或计划吗」\n  - C 先安慰：「别想那么多，都会过去的」\n  - D 说明保密例外：「涉及你的安全，我必须让能帮你的人知道」\n  - E 联系监护人，并按流程转介心理老师／医院\n  - F 当天记录并上报，约定下次见面时间","answer":"正确顺序 **B → D → E → F**（A、C 不在序列里，是要避开的两个动作）。理由：**评估风险必须早于劝说**——不问「有没有具体计划」，你不知道这是倾诉还是危机；B 同时解决两件事：人不能离开，风险必须直接问（直接问不会「诱发」自杀，这是最常被误解的一点）。D 必须在学生开口讲细节**之前**说清，否则就是在骗他。E、F 是动作闭环，不能不落。绝不能省的是 **B 与 E**——不评估，后面全错；不转介，你一个人扛不住也不该扛。**A 是专业错误**：承诺绝对保密，等于把学生和自己都关进一个没有出口的房间；**C 是善意但无效**：先安慰会把话堵回去。","hint_raw":"①有一件事必须在「安慰」之前做　②这里的「保密」不是绝对的，而且必须在开头就说　③见答案，想清楚 A 为什么是错的而不是「不好的」","record":"别人对我说很重的话时，我先做的是「让他好受」，还是「弄明白有多危险」","migrate":"把你专业里一次「求救信号」（学生突然沉默、系统报错、客户投诉、老人不肯吃饭）拿出来，写出你的前三个动作，并标出哪一步绝不能为了「让对方舒服」而跳过。","out_char":"","college":"人文科学学院","profession":"社会工作","hints":["有一件事必须在「安慰」之前做","这里的「保密」不是绝对的，而且必须在开头就说","见答案，想清楚 A 为什么是错的而不是「不好的」"],"code":"自"},{"date":"2027-03-17","month":3,"day":17,"weekday":"三","level":"L1","type":"九宫格","tag":"九宫格","review":false,"carry":"社会工作日的核心是「顺序」，今天把这个方法用到自己身上。","question":"中心格写「我这周最该先做的一件事」。八格填：这件事现在卡在哪、卡住的原因是我不会还是我不想、最快的下一步（十五分钟内能做完）、这一步需要谁、对方什么时候有空、如果今天不做会怎样、做了之后能松掉哪件别的、这件事对我下个月有什么影响。","answer":"无标准答案。判断一格：第 2 格——「不会」和「不想」的解法完全不同。「不会」要找方法，「不想」要找意义或找一个人陪着做。多数人以为是「不会」，其实是「不想」。","hint_raw":"① 先答第 2 格，它决定后面全部。② 第 3 格必须是十五分钟内能做完的。③ 见答案，注意第 7 格：一件事做了，往往会带动另一件。","record":"我卡住的那件事，是不会，还是不想。","migrate":"","out_char":"","hints":["先答第 2 格，它决定后面全部","第 3 格必须是十五分钟内能做完的","见答案，注意第 7 格：一件事做了，往往会带动另一件"],"code":"自"},{"date":"2027-03-18","month":3,"day":18,"weekday":"四","level":"L1","type":"配对连线","tag":"配对连线","review":false,"carry":"分清了「不会」和「不想」，今天连四种解法。","question":"左边四种情况，右边四种对应解法，请连线：① 不会，也没人教 ② 不会，但有人会 ③ 不想，但必须做 ④ 不想，也不必须做 —— A 找十分钟的问人机会 B 找一个同伴一起做 C 只做最小的一步，换来后面的自由 D 允许自己不做，把它从清单划掉。","answer":"参考 ①—A、②—A（或 B）、③—C、④—D。关键是④—D：很多「不想」的事其实不必做，只是被放在了清单上；承认它不必做，比硬撑更省力。","hint_raw":"① 有一类事最好的处理是「划掉」。② 「必须做」的那一类，靠的不是意志，是最小的一步。③ 见答案，看自己的清单里有几件属于④。","record":"我清单上那件一直没做的事，是不是可以划掉。","migrate":"","out_char":"","hints":["有一类事最好的处理是「划掉」","「必须做」的那一类，靠的不是意志，是最小的一步","见答案，看自己的清单里有几件属于④"],"code":"自"},{"date":"2027-03-19","month":3,"day":19,"weekday":"五","level":"L3","type":"专业日","tag":"L3 专业日：现代教育技术","review":false,"carry":"本周你已经看了「多条路」和「先后顺序」，今天看第三种专业能力：**判断哪些东西搬得走，哪些搬不走**。","question":"同一节「认识春天」的活动，有线下版和线上版。下面五组环节，只有 3 处是「必须重写、不能平移」的。请找出来，并说明重写方案。\n\n  | 环节 | 线下版 | 线上版 |\n  |---|---|---|\n  | 导入 | 带孩子到窗边看树 | 播放树木高清视频 |\n  | 演示 | 老师举着实物叶子绕场走一圈 | 共享屏幕展示叶子图片 |\n  | 练习 | 每人发一片叶子摸一摸、比一比 | 请学生说一说你见过的叶子 |\n  | 反馈 | 老师走到每个孩子身边看记录 | 对镜头说「我看到有小朋友画好了」 |\n  | 收束 | 排队把叶子贴到主题墙 | 把作品拍照发到班级群 |","answer":"必须重写的是**演示、练习、反馈**三处。\n  - 演示：实物绕场靠的是「叶子在不同距离、不同角度下的变化」，屏幕把它压成一张平面图——重写方案：让学生课前自己捡一片叶子放在手边，课上跟着老师的口令同步举起、翻面、对光。\n  - 练习：摸、比、闻是触觉与嗅觉通道，屏幕上根本不存在——重写方案：练习改为「手边实物操作＋向镜头展示」，把感官任务留在屏幕外完成。\n  - 反馈：线下反馈靠「老师能走到你身边」，线上老师看不见细微动作——重写方案：改为点名轮流展示＋课后一对一点评，把「即时全班反馈」降级为「定点反馈」，并明确告诉学生什么时候会轮到他。\n  - 导入与收束**可以平移**（视频替换窗边、群相册替换主题墙），只需微调：视频要有真实光线变化、群相册要设固定命名规则。","hint_raw":"①有些环节靠的是身体，不是画面　②找那个「老师必须能走到你身边」才成立的环节　③见答案，注意导入为什么反而可以搬","record":"我把一件事搬到新环境时，有哪些部分我原样搬了过去","migrate":"把你专业里的一次活动（社团课、班会、家访、维修、直播）从 A 场地搬到 B 场地，写出哪一环必须重写，为什么。","out_char":"","college":"信息科学学院","profession":"现代教育技术","hints":["有些环节靠的是身体，不是画面","找那个「老师必须能走到你身边」才成立的环节","见答案，注意导入为什么反而可以搬"],"code":"自"},{"date":"2027-03-20","month":3,"day":20,"weekday":"六","level":"L1","type":"迷宫","tag":"迷宫","review":false,"carry":"三次专业日看完，今天走一条「我到底要不要试」的路。","question":"有一个机会你想试但不确定，四个岔口，每岔只有一条能避免后悔：岔口一 等到有把握再报／现在就报；岔口二 报最想要的／报最有把握的；岔口三 只报一个／报两个；岔口四 失败后不复盘／失败后写三行复盘。","answer":"参考路径：现在就报→报最有把握的→报两个→失败后写三行复盘。第一格是这道题的核心：多数机会的门槛是「先在场」，把握是在场上长出来的。第三格报两个，是为了把「一次失败」稀释成「一次经验」。","hint_raw":"① 有一个岔口，选错会导致你根本没上场。② 「有把握」这个状态，很少在报名之前出现。③ 见答案，注意最后一格为什么只写三行。","record":"这学期我因为「没准备好」错过了几件事。","migrate":"","out_char":"","hints":["有一个岔口，选错会导致你根本没上场","「有把握」这个状态，很少在报名之前出现","见答案，注意最后一格为什么只写三行"],"code":"自"},{"date":"2027-03-21","month":3,"day":21,"weekday":"日","level":"L1","type":"排序题","tag":"世界森林日／世界唐氏综合征日｜排序题","review":false,"carry":"昨天决定上场，今天排一次「上场之后」。","question":"你进了复试/面试，五个动作请排序：A 查清楚对方要什么人 B 准备三个自己的具体例子 C 练一遍「为什么是我」 D 想好要问对方的一个问题 E 提前十分钟到。","answer":"参考 A→B→C→D→E。A 决定后面所有内容的方向；B 的例子必须有具体场景和结果（没有结果的例子不算）；D 的问题最能拉开差距，它说明你在挑对方，不只是在被挑；E 提前十分钟是唯一不需要能力的加分项。","hint_raw":"① 有一个动作决定你准备的内容对不对题。② 例子必须带结果。③ 见答案，注意 D 为什么排在这个位置。","record":"我上次面试/复试，准备了几个带结果的例子。","migrate":"","out_char":"","hints":["有一个动作决定你准备的内容对不对题","例子必须带结果","见答案，注意 D 为什么排在这个位置"],"code":"自"},{"date":"2027-03-22","month":3,"day":22,"weekday":"一","level":"L1","type":"隐藏词","tag":"世界水日｜隐藏词","review":false,"carry":"上场的事排完了，今天在一段「我的一天」里找词，看有没有漏水。","question":"下面这段话里藏着三个词，找出来，并指出哪一个是真正在漏的地方：\n  「今天挺满的：上午两节课，中午开会，下午做表，晚上写作业到十一点。回想一下，好像什么都没做完，但一直在忙。」","answer":"三个词：挺满、一直在忙、什么都没做完。真正在漏的是「挺满」这个错觉——它用时间长度代替了完成度。这一天里没有一段是连续超过一小时的，所以每件事都只做了开头。","hint_raw":"① 有一句话同时承认了「忙」和「没做完」，这就是线索。② 漏的不是时间，是整块的时间。③ 见答案，找出自己一天里最长的一段连续时间是多少。","record":"我一天里最长的一段不被打断的时间，是几分钟。","migrate":"","out_char":"","hints":["有一句话同时承认了「忙」和「没做完」，这就是线索","漏的不是时间，是整块的时间","见答案，找出自己一天里最长的一段连续时间是多少"],"code":"自"},{"date":"2027-03-23","month":3,"day":23,"weekday":"二","level":"L1","type":"填字格","tag":"填字格","review":false,"carry":"找到了漏点，今天填一条「堵漏」的规矩。","question":"横填五格，每格两字：① 每天留一段___（整块/零碎/固定）时间 ② 这段时间只做___（一件/两件/三件）事 ③ 门关着或___（耳机/手机/牌子）戴上 ④ 有人找就说___（等一下/不行/稍后）⑤ 结束后写___（一句/一篇/一行）。","answer":"参考：整块／一件／耳机／稍后／一句。第 4 格是难点：多数人学不会说「稍后」，于是整块时间被切碎。第 5 格只写一句，是为了知道这段整块时间到底有没有产出。","hint_raw":"① 第 2 格如果填「两件」，这段整块就白留了。② 第 4 格要给一个具体说法，不能只是「嗯」。③ 见答案，注意第 5 格为什么只要一句。","record":"我能说出「稍后」吗，还是会立刻放下手上的事。","migrate":"","out_char":"","hints":["第 2 格如果填「两件」，这段整块就白留了","第 4 格要给一个具体说法，不能只是「嗯」","见答案，注意第 5 格为什么只要一句"],"code":"自"},{"date":"2027-03-24","month":3,"day":24,"weekday":"三","level":"L1","type":"九宫格","tag":"九宫格","review":false,"carry":"堵漏之后，今天看「我这学期的重心」。","question":"中心格写「这学期」。八格填：必须完成的（学业类）三件、想完成的（自己选的）两件、可以放弃的一件、别人期待我做的一件、我真正在意的一件。","answer":"无标准答案。填完后做一次减法：八格里只留三格作为这学期的重心，其余五格标为「维持即可」。多数人的问题是三格全在「必须完成」里，于是整学期没有一件是自己选的。","hint_raw":"① 先写「我真正在意的一件」，再写别的。② 八格都要留，但重心只能三个。③ 见答案，看这三个里有没有一件是你自己选的。","record":"这学期的三格里，有一件是我自己选的吗。","migrate":"","out_char":"","hints":["先写「我真正在意的一件」，再写别的","八格都要留，但重心只能三个","见答案，看这三个里有没有一件是你自己选的"],"code":"自"},{"date":"2027-03-25","month":3,"day":25,"weekday":"四","level":"L1","type":"密文破译","tag":"密文破译","review":false,"carry":"定了重心，今天破三句「时间不够」。","question":"请破译下面三句话真正在说的事，并指出哪一句是最好处理的：\n  A「我最近太忙了，等忙完这阵再说。」\n  B「我时间不够，是因为我什么都想做好。」\n  C「我不知道我的时间去哪了。」","answer":"A 的真实意思常是「这件事我不打算现在做」，它把一个决定拖成了无限期；B 是标准问题（标准太高导致时间膨胀），最好处理——只要降低单项标准即可；C 是记录问题，记三天时间日志就能解决。三句里 A 最难办，因为它不是时间问题。","hint_raw":"① 有一句其实是拒绝，只是没说「不」。② 有一句只要降低标准就能解决。③ 见答案，把 A 翻译成一句诚实的拒绝。","record":"我用「太忙了」推掉过哪些事。","migrate":"","out_char":"","hints":["有一句其实是拒绝，只是没说「不」","有一句只要降低标准就能解决","见答案，把 A 翻译成一句诚实的拒绝"],"code":"自"},{"date":"2027-03-26","month":3,"day":26,"weekday":"五","level":"L1","type":"排序题","tag":"排序题","review":false,"carry":"昨天把「太忙」翻译了，今天排一次「这学期先做什么」。","question":"剩下半个学期，五件事请排序：A 把上学期欠下的一个东西补完 B 把手上一件事做到能拿出来给别人看 C 学一样新东西 D 多认识两个人 E 把身体弄好一点。","answer":"参考 B→E→A→D→C。B 排第一：拿得出手的作品是这学期唯一能带走的东西；E 提前，因为身体是所有计划的地基，一旦塌了，其余四项全部停摆；C 排最后，因为「学新东西」最容易挤掉现有的进度。","hint_raw":"① 有一件是「可以给别人看的」，它决定后面所有机会。② 身体不排第一，但必须在「学新的」之前。③ 见答案，注意 A 为什么排第三而不是第一。","record":"这学期结束时，我能拿出什么给别人看。","migrate":"","out_char":"","hints":["有一件是「可以给别人看的」，它决定后面所有机会","身体不排第一，但必须在「学新的」之前","见答案，注意 A 为什么排第三而不是第一"],"code":"自"},{"date":"2027-03-27","month":3,"day":27,"weekday":"六","level":"L1","type":"配对连线","tag":"配对连线","review":false,"carry":"确定了要拿出什么，今天连「给谁看」。","question":"左边五种「我能拿出的东西」，右边五种最可能用上它的人，请连线：① 一份活动方案 ② 一段课堂视频 ③ 一件手工作品 ④ 一份数据分析表 ⑤ 一篇写自己经历的短文 —— A 招人的园所/机构 B 带你做项目的老师 C 想认识的新同学 D 比赛评委 E 未来的自己。","answer":"参考 ①—B、②—A、③—D、④—B（或 A）、⑤—E。⑤—E 最容易被忽略：写给未来的自己，是唯一不需要评委的东西，也是三年后最有用的一份。","hint_raw":"① 有一种东西的读者不是别人。② 「课堂视频」最直接的用途是给对方看你的现场。③ 见答案，注意⑤为什么放在最后却最有用。","record":"我愿意写给三年后的自己的那段文字，第一句是什么。","migrate":"","out_char":"","hints":["有一种东西的读者不是别人","「课堂视频」最直接的用途是给对方看你的现场","见答案，注意⑤为什么放在最后却最有用"],"code":"自"},{"date":"2027-03-28","month":3,"day":28,"weekday":"日","level":"L1","type":"迷宫","tag":"复活节｜迷宫","review":false,"carry":"写完了给未来的话，今天走一条「重来一次」的路。","question":"你有一件事失败了，想再试一次，四个岔口，每岔只有一条能真的重来：岔口一 换个新目标／回到原目标；岔口二 从头来过／从失败的那一步开始；岔口三 一个人做／找一个人一起；岔口四 瞒着上次失败／把上次失败说出来。","answer":"参考路径：回到原目标→从失败的那一步开始→找一个人一起→把上次失败说出来。第一格是关键：换目标常常是逃避；第二格省一半力气；第四格最反直觉，但说出失败会让你从「怕被知道」里解放出来，也更容易拿到帮助。","hint_raw":"① 有一个岔口看起来是重新开始，其实是绕开。② 从哪一步开始可以省一半时间。③ 见答案，注意最后一格为什么反而更轻松。","record":"我有没有一件想重来的事，卡在哪个岔口。","migrate":"","out_char":"","hints":["有一个岔口看起来是重新开始，其实是绕开","从哪一步开始可以省一半时间","见答案，注意最后一格为什么反而更轻松"],"code":"自"},{"date":"2027-03-29","month":3,"day":29,"weekday":"一","level":"L1","type":"找不同","tag":"找不同","review":false,"carry":"昨天想重来，今天看两种「三个月」。","question":"下面是同一学期的两份总结，找三处不同，并指出哪一份能让人接着往下走：\n  A「这学期参加了不少活动，收获很多，也认识到自己的不足，下学期要继续努力。」\n  B「这学期做成两件事：一次活动带到收尾、一门课从及格到八十分。没做成一件：没坚持跑步。跑步失败的原因是每次都定五公里，下次改成两公里。」\n  A/B 请找出差异并判断。","answer":"三处不同：① A 有评价无事实，B 有事实有数字；② A 的结论是「继续努力」，B 的结论是「改成一个更小的量」；③ A 没有失败的具体原因，B 有。能接着往下走的是 B——它把失败变成了下一次的参数。","hint_raw":"① 数一数哪一份里有具体数字。② 有一份写出了失败的原因和解法。③ 见答案，注意「下次改成两公里」这一句的价值。","record":"我这学期的总结，写得出两个具体的事吗。","migrate":"","out_char":"","hints":["数一数哪一份里有具体数字","有一份写出了失败的原因和解法","见答案，注意「下次改成两公里」这一句的价值"],"code":"自"},{"date":"2027-03-30","month":3,"day":30,"weekday":"二","level":"L1","type":"隐藏词","tag":"隐藏词","review":false,"carry":"明天复盘，今天先在一段话里找到自己的「季末状态」。","question":"下面这段话里藏着三个词，找出来，并指出哪一个最需要在下季度改掉：\n  「这三个月好像做了很多，又说不出做了什么。有时候挺有劲，有时候一整天都不想动。最怕的是别人问我最近在忙什么，因为我答不上来。」","answer":"三个词：说不出、不想动、答不上来。最需要改的是「答不上来」——它是前三者的结果，也是唯一能被训练的一环：只要每周留一句「这周做成的一件事」，三个月后就能答得上来。","hint_raw":"① 注意「答不上来」是被什么造成的。② 有一件事每周只花一分钟就能解决。③ 见答案，从今天开始写那句「这周做成的一件事」。","record":"如果现在有人问我最近在忙什么，我的答案是什么。","migrate":"","out_char":"","hints":["注意「答不上来」是被什么造成的","有一件事每周只花一分钟就能解决","见答案，从今天开始写那句「这周做成的一件事」"],"code":"自"},{"date":"2027-03-31","month":3,"day":31,"weekday":"三","level":"REVIEW","type":"季度复盘","tag":"季度复盘｜Q1 密码字：己","review":true,"carry":"Q1 最后一天。这一季的四个字是「看」「见」「自」「己」，今天出最后一个字：己。","question":"三道题，请一次做完：\n  ① 从 1 月 1 日到今天，翻回自己的记录，数出「我做成的事」有几件（不要求大，能说出具体动作就算）。\n  ② 从这三个月里挑一件事，写出它的三个参数：我花了多少时间、我当时的标准是什么、结果如何。\n  ③ 用一句话回答：如果这个季度只留一句话给下一个季度的自己，是哪一句。","answer":"无标准答案。判断标准：①至少要能数出三件（数不出，说明这一季没有留痕，从 Q2 起每天只写一句）；②三个参数必须都有具体数字或具体说法；③那句话里不能出现「努力」「加油」「变得更好」这类空词，要有一件具体的事或一个具体的量。","hint_raw":"① 第 ① 题允许把「坚持了某件事两周」算作一件。② 第 ② 题的标准那一栏最容易空，它恰恰是最该写的。③ 第 ③ 题试着自己念一遍：如果这句话对你没用，就重写。","record":"这一季的四个字连起来是「看见自己」。我现在能说出「自己」的哪一件事。","migrate":"","out_char":"己（Q1 完整密码「看见自己」，与 4 月「澄」连成第二句的开头）\n\n---\n\n## 验收自检（v8）\n\n| 检查项 | 要求 | 本册实际 | 结论 |\n|---|---|---|---|\n| Q1 天数 | 90 | 90 | 通过 |\n| L1 逐日题 | 79 | 79 | 通过 |\n| 非 L1 节点 | L3 5 + L2 3 + L4 2 = 10 | 1/14、2/21、3/14、3/16、3/19；1/24、2/11、3/8；2/14、2/20 | 通过 |\n| 季度复盘 | 1 道（3/31） | 1 道，出「己」 | 通过 |\n| 密码字 | 1 月看、2 月见、3 月自、3/31 己 | 一致 | 通过 |\n| 题型轮换 | 八种，任一日与前后两日不重复 | 已逐日校验，4 处初排冲突已改（1/16、3/12、3/17、3/21） | 通过 |\n| 单题结构 | 承接／题干／答案／三级提示／探索记录 | 79 道全部齐备 | 通过 |\n| 月度主题 | 重启与看见／关系与支持／节奏与自己 | 一致 | 通过 |\n| 不抢 L3 内容 | L1 不出现专业切口 | L1 无专业术语，L3 日期全部标注「见 v6」 | 通过 |\n\n**题型分布（79 道 L1）**\n\n| 题型 | 道数 |\n|---|---|\n| 九宫格 | 11 |\n| 配对连线 | 11 |\n| 迷宫 | 11 |\n| 密文破译 | 10 |\n| 排序题 | 10 |\n| 找不同 | 9 |\n| 隐藏词 | 9 |\n| 填字格 | 8 |\n| 合计 | 79 |\n\n**下一步**","hints":["第 ① 题允许把「坚持了某件事两周」算作一件","第 ② 题的标准那一栏最容易空，它恰恰是最该写的","第 ③ 题试着自己念一遍：如果这句话对你没用，就重写"],"code":"己"}]};
+const WEEK = {一:"周一",二:"周二",三:"周三",四:"周四",五:"周五",六:"周六",日:"周日"};
+const LEVEL_NAME = {L1:"L1 通用",L2:"L2 职业",L3:"L3 专业日",L4:"L4 生活",REVIEW:"季度复盘"};
+const MONTH_CN = ["","一","二","三","四","五","六","七","八","九","十","十一","十二"];
+
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+function md(s){
+  return esc(s).replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>");
+}
+
+const days = DATA.days.slice();
+const monthTheme = DATA.month_theme || {};
+const byMonth = {};
+days.forEach(d=>{ (byMonth[d.month]=byMonth[d.month]||[]).push(d); });
+
+/* 统计 */
+(function(){
+  const c = {};
+  days.forEach(d=>c[d.level]=(c[d.level]||0)+1);
+  const scope = DATA.meta && DATA.meta.scope_label ? DATA.meta.scope_label : "全年";
+  const items = [
+    ["范围", scope],
+    ["天数", days.length],
+    ["L1 通用", c.L1||0],
+    ["L2 职业", c.L2||0],
+    ["L3 专业日", c.L3||0],
+    ["L4 生活", c.L4||0],
+    ["复盘日", days.filter(d=>d.review).length]
+  ];
+  document.getElementById("stats").innerHTML = items.map(([k,v])=>`<span class="tag">${k} <b>${v}</b></span>`).join("");
+})();
+
+/* 导航 */
+(function(){
+  const nav = document.getElementById("nav");
+  nav.innerHTML = Object.keys(byMonth).map(m=>{
+    const hasRev = byMonth[m].some(d=>d.review);
+    return `<a class="${hasRev?"rev":""}" href="#m${m}">${m}月${hasRev?"·复盘":""}</a>`;
+  }).join("");
+})();
+
+/* 渲染 */
+function cardHTML(d){
+  const lv = d.level;
+  const id = "c" + d.date.replace(/-/g,"");
+  const hints = (d.hints||[]).map((h,i)=>`<div class="hint" data-i="${i}">${["①","②","③"][i]||"·"} ${md(h)}</div>`).join("");
+  const tipBtn = (d.hints&&d.hints.length)
+    ? `<button onclick="stepHint('${id}')">提示 <span id="${id}-hi">0</span>/${d.hints.length}</button>
+       <button class="ghost" onclick="allHints('${id}')">全提示</button>` : "";
+  const ansBtn = (d.answer && d.answer.trim())
+    ? `<button onclick="toggle('${id}-ans','${id}-ab')" id="${id}-ab">看答案</button>` : "";
+  const revBadge = d.review ? `<span class="badge" style="border-color:var(--gold);color:#7a5f10">复盘</span>` : "";
+  const prof = d.profession ? `<span class="badge">${esc(d.college||"")}·${esc(d.profession)}</span>` : "";
+  const pos = d.position ? `<span class="badge">指向岗位：${esc(d.position)}</span>` : "";
+  const lvName = lv==="L2" ? ("L2 " + (d.type==="完整题"?"完整题":"一问")) : (LEVEL_NAME[lv]||lv);
+  return `<article class="card lv-${lv}${d.review?" review-dot":""}" id="${id}"
+      data-key="${esc([d.date,d.weekday,d.type,d.tag,d.profession,d.position,d.carry,d.question,d.answer,(d.hints||[]).join(" ")].join(" ")).replace(/"/g,"")}">
+    <div class="card-head">
+      <span class="date">${d.month} 月 ${d.day} 日</span>
+      <span class="wd">${esc(WEEK[d.weekday]||("周"+d.weekday))}</span>
+      <span class="badge lv ${lv}">${esc(lvName)}</span>
+      ${d.type && lv!=="L2" ? `<span class="badge type">${esc(d.type)}</span>`:""}
+      ${d.code ? `<span class="badge code">密码字 ${esc(d.code)}</span>`:""}
+      ${revBadge}${prof}${pos}
+    </div>
+    ${d.tag ? `<div class="fest">${esc(d.tag)}</div>`:""}
+    ${d.carry ? `<div class="carry">${md(d.carry)}</div>`:""}
+    <div class="qtext">${md(d.question||"")}</div>
+    ${d.record ? `<div class="record">${md(d.record)}</div>`:""}
+    <div class="btns">
+      ${tipBtn}${ansBtn}
+      ${(d.migrate)?`<button class="ghost" onclick="toggle('${id}-mig','')">通用迁移</button>`:""}
+    </div>
+    <div class="panel" id="${id}-hint">${hints}</div>
+    ${d.answer?`<div class="panel" id="${id}-ans"><h4>答案</h4><div class="answer">${md(d.answer)}</div></div>`:""}
+    ${d.migrate?`<div class="panel" id="${id}-mig"><h4>通用迁移</h4><div class="answer" style="background:#F3F4EE;border-color:var(--line)">${md(d.migrate)}</div></div>`:""}
+  </article>`;
+}
+
+window.toggle = function(pid, bid){
+  const p = document.getElementById(pid); if(!p) return;
+  p.classList.toggle("on");
+  if(bid){ const b=document.getElementById(bid); if(b) b.textContent = p.classList.contains("on")?"收起答案":"看答案"; }
+};
+window.stepHint = function(id){
+  const wrap = document.getElementById(id+"-hint");
+  if(!wrap) return;
+  const next = wrap.querySelector(".hint:not(.on)");
+  if(next){ next.classList.add("on"); wrap.classList.add("on"); }
+  const shown = wrap.querySelectorAll(".hint.on").length;
+  const c = document.getElementById(id+"-hi"); if(c) c.textContent = shown;
+};
+window.allHints = function(id){
+  const wrap = document.getElementById(id+"-hint");
+  if(!wrap) return;
+  wrap.querySelectorAll(".hint").forEach(h=>h.classList.add("on"));
+  wrap.classList.add("on");
+  const c = document.getElementById(id+"-hi"); if(c) c.textContent = wrap.querySelectorAll(".hint.on").length;
+};
+
+(function render(){
+  const main = document.getElementById("main");
+  const months = Object.keys(byMonth).sort((a,b)=>a-b);
+  main.innerHTML = months.map(m=>{
+    const list = byMonth[m];
+    const rev = list.find(d=>d.review);
+    const ch = monthTheme[m] || "";
+    const mdname = ["","一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"][m];
+    return `<section class="month" id="m${m}">
+      <div class="month-head">
+        <span class="num">MONTH ${String(m).padStart(2,"0")}</span>
+        <h2>${[mdname,ch,rev?("复盘 "+rev.code):""].filter(Boolean).join(" · ")}</h2>
+        <span class="ch">${esc(ch)}</span>
+      </div>
+      <div class="cards">${list.map(cardHTML).join("")}</div>
+    </section>`;
+  }).join("");
+})();
+
+/* 搜索 */
+document.getElementById("q").addEventListener("input", function(){
+  const kw = this.value.trim().toLowerCase();
+  document.querySelectorAll("section.month").forEach(sec=>{
+    let n = 0;
+    sec.querySelectorAll(".card").forEach(c=>{
+      const hit = !kw || (c.dataset.key||"").toLowerCase().includes(kw);
+      c.style.display = hit ? "" : "none";
+      if(hit) n++;
+    });
+    sec.style.display = n ? "" : "none";
+  });
+});
+</script>
+</body>
+</html>

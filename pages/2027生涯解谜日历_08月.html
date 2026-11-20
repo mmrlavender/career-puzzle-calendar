@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2027 生涯解谜日历｜八月</title>
+<style>
+:root{
+  --ink:#1E2A24; --green:#0F3D2E; --green-2:#1C5B45; --paper:#F5F1E6;
+  --card:#FFFDF7; --ochre:#B4553C; --gold:#C9A227; --mute:#6B7A70; --line:#DCD5C4;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--paper); color:var(--ink);
+  font-family:"Noto Sans SC","Source Han Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+  font-size:15px; line-height:1.75; -webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(rgba(15,61,46,.045) 1px, transparent 1px);
+  background-size:22px 22px;
+}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px 80px}
+header.hero{padding:56px 0 28px;border-bottom:2px solid var(--green);position:relative}
+.hero-top{display:flex;align-items:flex-start;gap:28px;flex-wrap:wrap}
+.hero-svg{flex:0 0 132px}
+h1{font-family:"Noto Serif SC","Source Han Serif SC",Georgia,"Songti SC",serif;
+   font-size:38px;line-height:1.25;margin:0 0 8px;letter-spacing:.02em;color:var(--green)}
+.sub{color:var(--mute);font-size:14px;letter-spacing:.08em}
+.meta-line{margin-top:14px;display:flex;gap:10px;flex-wrap:wrap}
+.tag{display:inline-block;border:1px solid var(--line);background:var(--card);
+     padding:3px 10px;border-radius:999px;font-size:12.5px;color:var(--green-2)}
+.tag b{color:var(--ochre);font-weight:600}
+.controls{position:sticky;top:0;z-index:20;background:rgba(245,241,230,.94);
+  backdrop-filter:blur(6px);border-bottom:1px solid var(--line);margin-bottom:24px}
+.controls-in{max-width:1120px;margin:0 auto;padding:10px 20px;display:flex;gap:10px;
+  align-items:center;flex-wrap:wrap}
+.nav-months{display:flex;gap:6px;flex-wrap:wrap}
+.nav-months a{font-size:13px;color:var(--green-2);text-decoration:none;padding:4px 9px;
+  border:1px solid var(--line);border-radius:6px;background:var(--card)}
+.nav-months a:hover{border-color:var(--green);color:var(--green)}
+.nav-months a.rev{border-color:var(--gold);color:#7a5f10}
+#q{flex:1 1 200px;min-width:160px;padding:7px 12px;border:1px solid var(--line);
+   border-radius:8px;background:var(--card);font-size:14px;color:var(--ink);outline:none}
+#q:focus{border-color:var(--green)}
+section.month{margin:44px 0 0;scroll-margin-top:64px}
+.month-head{display:flex;align-items:baseline;gap:14px;border-bottom:1px solid var(--line);
+  padding-bottom:8px;margin-bottom:18px}
+.month-head .num{font-size:13px;letter-spacing:.2em;color:var(--mute)}
+.month-head h2{font-family:"Noto Serif SC",serif;font-size:26px;margin:0;color:var(--green)}
+.month-head .ch{font-family:"Noto Serif SC",serif;font-size:34px;color:var(--ochre);
+  margin-left:auto;line-height:1}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;
+  padding:16px 18px 14px;position:relative;box-shadow:0 1px 0 rgba(30,42,36,.04)}
+.card.lv-L2{border-left:4px solid var(--green-2)}
+.card.lv-L3{border-left:4px solid var(--ochre)}
+.card.lv-L4{border-left:4px solid #7C6AA8}
+.card.lv-REVIEW{border-left:4px solid var(--gold);background:#FFFBF0}
+.card.review-dot:after{content:"复盘";position:absolute;top:12px;right:14px;font-size:11px;
+  color:#7a5f10;border:1px solid var(--gold);border-radius:999px;padding:1px 8px}
+.card-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.date{font-family:"Noto Serif SC",serif;font-size:19px;color:var(--green);font-weight:600}
+.wd{font-size:12px;color:var(--mute)}
+.badge{font-size:11.5px;padding:1px 8px;border-radius:999px;border:1px solid var(--line);
+  color:var(--mute);background:#fff}
+.badge.type{color:var(--green-2);border-color:#CBDDD4}
+.badge.code{color:#8a5a00;border-color:#E7D49B;background:#FFF9E8}
+.badge.lv{color:#fff;background:var(--green);border-color:var(--green)}
+.badge.lv.L2{background:var(--green-2)}
+.badge.lv.L3{background:var(--ochre);border-color:var(--ochre)}
+.badge.lv.L4{background:#7C6AA8;border-color:#7C6AA8}
+.badge.lv.REVIEW{background:var(--gold);border-color:var(--gold);color:#3a2f00}
+.fest{font-size:12.5px;color:var(--ochre)}
+.carry{font-size:13.5px;color:var(--mute);margin:2px 0 10px}
+.qtext{white-space:pre-wrap;font-size:14.5px}
+.qtext strong{color:var(--green)}
+.btns{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+button{font:inherit;font-size:13px;padding:5px 12px;border-radius:7px;cursor:pointer;
+  border:1px solid var(--green);background:#fff;color:var(--green)}
+button:hover{background:var(--green);color:#fff}
+button.ghost{border-color:var(--line);color:var(--mute)}
+button.ghost:hover{background:#eee7d6;color:var(--ink);border-color:var(--line)}
+.panel{margin-top:12px;border-top:1px dashed var(--line);padding-top:10px;display:none}
+.panel.on{display:block}
+.panel h4{margin:0 0 6px;font-size:12.5px;letter-spacing:.12em;color:var(--mute);font-weight:600}
+.hint{display:none;background:#F0F5F1;border-left:3px solid var(--green-2);
+  padding:7px 11px;border-radius:0 7px 7px 0;margin:6px 0;font-size:14px}
+.hint.on{display:block}
+.answer{white-space:pre-wrap;font-size:14px;background:#FFF9E8;border-left:3px solid var(--gold);
+  padding:9px 12px;border-radius:0 7px 7px 0}
+.record{font-size:13.5px;color:var(--green-2);margin-top:10px;padding-left:2px}
+.record:before{content:"探索记录 · ";color:var(--mute);font-size:12px}
+.migrate{font-size:13px;color:var(--mute);margin-top:6px;border-top:1px dotted var(--line);
+  padding-top:6px;white-space:pre-wrap}
+.migrate:before{content:"通用迁移 · ";color:var(--ochre);font-size:12px}
+.note{font-size:13px;color:var(--mute);font-style:normal}
+.empty{padding:40px;text-align:center;color:var(--mute)}
+footer{margin-top:64px;border-top:2px solid var(--green);padding-top:18px;
+  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--mute)}
+.index-list{list-style:none;padding:0;margin:18px 0 0}
+.index-list li{padding:10px 0;border-bottom:1px solid var(--line)}
+.index-list a{color:var(--green);text-decoration:none;font-size:16px;font-family:"Noto Serif SC",serif}
+.index-list a:hover{color:var(--ochre)}
+.index-list span{color:var(--mute);font-size:13px;margin-left:10px}
+@media (max-width:640px){
+  h1{font-size:26px} .hero-svg{display:none} .month-head .ch{font-size:26px}
+  .cards{grid-template-columns:1fr} header.hero{padding-top:32px}
+}
+@media print{
+  body{background:#fff;font-size:11pt} .controls,#q,button{display:none!important}
+  .panel{display:block!important} .hint{display:block!important}
+  .card{break-inside:avoid;box-shadow:none} section.month{break-before:page}
+  .cards{grid-template-columns:1fr 1fr}
+  a{color:inherit;text-decoration:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero">
+  <div class="hero-top">
+    <div class="hero-svg"><svg width="132" height="132" viewBox="0 0 132 132" role="img" aria-label="全年星盘">
+  <circle cx="66" cy="66" r="46" fill="none" stroke="#0F3D2E" stroke-width="1" stroke-dasharray="2 5" opacity=".55"/>
+  <circle cx="66" cy="66" r="34" fill="none" stroke="#DCD5C4" stroke-width="1"/>
+  <text x="66" y="68" font-size="15" text-anchor="middle" fill="#0F3D2E" font-family="serif">2027</text>
+  <text x="66" y="84" font-size="9" text-anchor="middle" fill="#6B7A70" letter-spacing="1">解谜</text>
+  <circle cx="66.0" cy="20.0" r="3.2" fill="#CBD5CC" stroke="none" stroke-width="1"/><circle cx="89.0" cy="26.2" r="3.2" fill="#CBD5CC" stroke="none" stroke-width="1"/><circle cx="105.8" cy="43.0" r="3.2" fill="#CBD5CC" stroke="none" stroke-width="1"/><circle cx="112.0" cy="66.0" r="3.2" fill="#CBD5CC" stroke="none" stroke-width="1"/><circle cx="105.8" cy="89.0" r="3.2" fill="#CBD5CC" stroke="none" stroke-width="1"/><circle cx="89.0" cy="105.8" r="3.2" fill="#CBD5CC" stroke="none" stroke-width="1"/><circle cx="66.0" cy="112.0" r="3.2" fill="#CBD5CC" stroke="none" stroke-width="1"/><circle cx="43.0" cy="105.8" r="5" fill="#B4553C" stroke="#8f3f2b" stroke-width="1"/><text x="35.5" y="122.8" font-size="9.5" text-anchor="middle" fill="#0F3D2E" font-family="serif">索</text><circle cx="26.2" cy="89.0" r="3.2" fill="#CBD5CC" stroke="none" stroke-width="1"/><circle cx="20.0" cy="66.0" r="3.2" fill="#CBD5CC" stroke="none" stroke-width="1"/><circle cx="26.2" cy="43.0" r="3.2" fill="#CBD5CC" stroke="none" stroke-width="1"/><circle cx="43.0" cy="26.2" r="3.2" fill="#CBD5CC" stroke="none" stroke-width="1"/>
+</svg></div>
+    <div style="flex:1 1 320px;min-width:280px">
+      <h1>2027 生涯解谜日历｜八月</h1>
+      <div class="sub">福建幼儿师范高等专科学校 社团生涯教育　八月</div>
+      <div class="meta-line" id="stats"></div>
+    </div>
+  </div>
+</header>
+
+<div class="controls"><div class="controls-in">
+  <div class="nav-months" id="nav"></div>
+  <input id="q" type="search" placeholder="搜题干、答案、题型、节日、专业…">
+</div></div>
+
+<main id="main"></main>
+
+<footer>
+  <div>八月 · 共 31 天 · 生成于 2026/11/19 18:44:57</div>
+  <div>数据来源：生涯解谜日历全年版数据文件（calendar_2027.json）</div>
+</footer>
+</div>
+
+<script>
+const DATA = {"year":2027,"title":"2027 生涯解谜日历","subtitle":"福建幼儿师范高等专科学校 社团生涯教育","month_theme":{"1":"看","2":"见","3":"自","4":"澄","5":"清","6":"价","7":"探","8":"索","9":"世","10":"走","11":"出","12":"一"},"meta":{"scope":"month:8","scope_label":"八月"},"days":[{"date":"2027-08-01","month":8,"day":1,"weekday":"日","level":"L3","type":"专业日","tag":"建军节｜L3 专业日：婴幼儿托育服务与管理","review":false,"carry":"前一天 L1 写的是「我最近一次照顾别人」，今天把这件事变成专业课：**照顾不是先动手，是先判断**。","question":"一名 8 月龄婴儿在托育园持续哭闹。从起点到「安抚成功」出口，迷宫有四个岔口，每个岔口只有一条路能通向出口：\n  - 岔口一：饥饿 / 困倦\n  - 岔口二：身体不适（发热、腹胀、衣物缠绕）/ 环境过度刺激（灯太亮、人太多）\n  - 岔口三：抱起来摇 / 先降刺激再抱\n  - 岔口四：直接喂奶 / 记录并交接班\n  请走出那条必须最先排除的分支，并指出哪一条岔口里藏着「走得越久越危险」的选项。","answer":"正确路径是 **岔口一（先分清饥饿与困倦）→ 岔口二选身体不适（必须先排）→ 岔口三选先降刺激再抱 → 出口**。\n  - 危险选项在**岔口二**：身体不适若被当成「闹觉」，会拖成发热惊厥或窒息风险（衣物缠绕、口鼻被掩）。\n  - 岔口四「直接喂奶」是常见错误——未排除不适就喂，可能加重腹胀；正确做法是记录并交接班，让下一个接手的人知道前一小时发生了什么。","hint_raw":"①哭闹第一分钟该做什么，不该做什么　②四个岔口里，只有一个是「不能再等」的　③先排除生理与安全，再谈安抚技巧","record":"我照顾别人时，是先去解决，还是先看清楚","migrate":"把「婴儿哭闹」换成本专业最常见的求助信号（学生突然沉默、用户报错、老人不愿吃饭），先排危险再谈方法。","out_char":"","college":"学前教育学院","profession":"婴幼儿托育服务与管理","hints":["哭闹第一分钟该做什么，不该做什么","四个岔口里，只有一个是「不能再等」的","先排除生理与安全，再谈安抚技巧"],"code":"索"},{"date":"2027-08-02","month":8,"day":2,"weekday":"一","level":"L1","type":"密文破译","tag":"密文破译","review":false,"carry":"八月主题「索」——往深里追问。今天破三句「为什么」。","question":"下面三段对话，谁问到了真问题，请指出并说明理由：\n  A「你为什么选这个专业？」「因为我喜欢小孩。」\n  B「你喜欢小孩的什么？」「……就是喜欢吧。」\n  C「你带过几个小孩，最麻烦的是哪个时刻？」「中午不肯睡那次，我试了三种方法。」","answer":"C 问到了真问题。A、B 停留在「喜欢」这一层，而喜欢是无法验证的；C 问的是具体经历与具体动作，答案里有细节、有尝试、有数量。追问的诀窍只有一个：把抽象的词换成「哪一次、几个、怎么做的」。","hint_raw":"① 真问题里有数字和具体时刻。② 「喜欢」需要被拆成场景。③ 见答案，用这个方法追问自己一次。","record":"「我喜欢」后面，我能接上哪一件具体的事。","migrate":"","out_char":"","hints":["真问题里有数字和具体时刻","「喜欢」需要被拆成场景","见答案，用这个方法追问自己一次"],"code":"索"},{"date":"2027-08-03","month":8,"day":3,"weekday":"二","level":"L1","type":"排序题","tag":"排序题","review":false,"carry":"昨天学了追问，今天排一次「问自己」。","question":"你要弄清「我到底喜不喜欢这件事」，五个动作请排序：A 找出这件事里最具体的三个动作 B 标出哪个动作让你时间过得快 C 标出哪个动作让你拖延 D 想象只做喜欢的那部分、其余交给别人 E 判断能不能接受「喜欢三成、忍受七成」。","answer":"参考 A→B→C→D→E。D 是整道题的关键：任何工作都有「只做一部分」的形态，弄清你要的那部分是否存在，比判断「喜不喜欢这个职业」更准确。E 是最终的落点：多数工作是「喜欢三成、忍受七成」。","hint_raw":"① 先拆成具体动作。② 有一格是「只做那一部分」。③ 见答案，注意 E 为什么是「三成」。","record":"那件事里让我时间过得快的动作，是哪一个。","migrate":"","out_char":"","hints":["先拆成具体动作","有一格是「只做那一部分」","见答案，注意 E 为什么是「三成」"],"code":"索"},{"date":"2027-08-04","month":8,"day":4,"weekday":"三","level":"L1","type":"九宫格","tag":"九宫格","review":false,"carry":"昨天拆了动作，今天看「我时间过得快的时候」。","question":"中心格写「我忘记看时间的一次」。八格填：那天在做什么、和谁、在哪、做了多久、中间被打断过吗、做完什么感觉、有人说过我做得好吗、还有哪次也是这样。","answer":"无标准答案。判定要点：把第 1 格与第 8 格对照，出现两次以上的活动就是你的兴趣线索。第 6 格「做完什么感觉」若填的是「累但舒服」，那比「轻松」更有价值——前者说明有投入。","hint_raw":"① 要两次以上才算线索。② 「累但舒服」是好信号。③ 见答案，找出重复出现的那一类活动。","record":"我忘记看时间的那些时刻，共同点是什么。","migrate":"","out_char":"","hints":["要两次以上才算线索","「累但舒服」是好信号","见答案，找出重复出现的那一类活动"],"code":"索"},{"date":"2027-08-05","month":8,"day":5,"weekday":"四","level":"L1","type":"密文破译","tag":"密文破译","review":false,"carry":"昨天找到了共同点，今天破三句「我适合」。","question":"请破译下面三句话，并指出哪一句最可能是真的判断：\n  A「我性格内向，适合做不用跟人打交道的工作。」\n  B「我做表格时能连续坐三小时不烦，做介绍人的活十分钟就累。」\n  C「我朋友说我适合当老师，因为我脾气好。」","answer":"最可能是真判断的是 B——它基于自己的实际时长与感受对比，是可复现的证据。A 把性格直接等同于岗位类型（几乎没有「不跟人打交道」的工作）；C 是别人的印象，而「脾气好」在真实课堂里并不等于能管住课堂。","hint_raw":"① 有一句话对比了两种活的时间感受。② 别人的印象不等于适配。③ 见答案，用自己的「时长感受」做一次判断。","record":"我做哪件事能连续坐三小时不烦。","migrate":"","out_char":"","hints":["有一句话对比了两种活的时间感受","别人的印象不等于适配","见答案，用自己的「时长感受」做一次判断"],"code":"索"},{"date":"2027-08-06","month":8,"day":6,"weekday":"五","level":"L1","type":"迷宫","tag":"迷宫","review":false,"carry":"昨天找到了证据，今天走一条「深入了解一个职业」的路。","question":"四个岔口，每岔只有一条能真的了解：岔口一 看介绍文章／找一个在职的人聊；岔口二 问他这份工作怎么样／问他上周做了什么；岔口三 只听好的／也问最难的部分；岔口四 聊完就结束／写下来并对照自己。","answer":"参考路径：找一个在职的人聊→问他上周做了什么→也问最难的部分→写下来并对照自己。第二格是核心：问「怎么样」得到的是评价，问「上周做了什么」得到的是事实。第三格决定你听到的是宣传还是真相。","hint_raw":"① 问事实不问评价。② 「最难的部分」最有信息量。③ 见答案，找一个在职的人，问那三个问题。","record":"我问到的「上周做了什么」，具体有哪些事。","migrate":"","out_char":"","hints":["问事实不问评价","「最难的部分」最有信息量","见答案，找一个在职的人，问那三个问题"],"code":"索"},{"date":"2027-08-07","month":8,"day":7,"weekday":"六","level":"L1","type":"找不同","tag":"找不同","review":false,"carry":"昨天拿到了事实，今天看两份「职业介绍」。","question":"同一个人对同一个岗位的两段描述，找三处不同，并指出哪一段能让人做决定：\n  A「这个岗位很有前景，需要热爱孩子、有耐心、愿意学习，发展空间大。」\n  B「早上七点半到岗，一天带 25 个孩子，两个老师；主要工作是看护、组织活动、处理冲突、写观察记录；八小时里有五小时是站着；月薪 4000 起。」","answer":"三处不同：① A 全是形容词与评价，B 全是事实与数字；② A 没有时间与人数，B 有到岗时间、人数、比例；③ A 无法判断自己能不能做，B 可以逐条对照。能让人做决定的是 B。","hint_raw":"① 有一份里有「七点半」「25 个」「4000」。② 形容词无法用来做决定。③ 见答案，用 B 的四类信息去描述你关心的岗位。","record":"我能用四个数字描述我想做的岗位吗。","migrate":"","out_char":"","hints":["有一份里有「七点半」「25 个」「4000」","形容词无法用来做决定","见答案，用 B 的四类信息去描述你关心的岗位"],"code":"索"},{"date":"2027-08-08","month":8,"day":8,"weekday":"日","level":"L4","type":"生活趣味","tag":"七夕节｜L4 生活趣味","review":false,"carry":"","question":"牛郎织女每年见一次，可有人说他们从不走同一条路——为什么？","answer":"因为是**一座桥，两个方向**：他往上走，她往下走。（也接受任何比这更妙的答案，今天的题没有标准答案。）","hint_raw":"","record":"今天有没有和谁说过一句真心话。","migrate":"","out_char":"","hints":[],"code":"索"},{"date":"2027-08-09","month":8,"day":9,"weekday":"一","level":"L1","type":"填字格","tag":"填字格","review":false,"carry":"昨天休息，今天填「怎么把一件事问到底」。","question":"横填四格，每格两字：① 追问「___」（哪一次／为什么／好不好） ② 要求举___（例子／理由／态度） ③ 问清「然后___」（呢／做／办） ④ 记下一个___（细节／结论／评价）。","answer":"参考：哪一次／例子／呢／细节。第 1 格「哪一次」是所有追问里最有效的开场：把概括变成事件。第 3 格「然后呢」能把事情推到结果，避免停在过程描述。","hint_raw":"① 用「哪一次」替代「为什么」。② 「然后呢」能问出结果。③ 见答案，用这两句去问一个人。","record":"我用「哪一次」问出了什么细节。","migrate":"","out_char":"","hints":["用「哪一次」替代「为什么」","「然后呢」能问出结果","见答案，用这两句去问一个人"],"code":"索"},{"date":"2027-08-10","month":8,"day":10,"weekday":"二","level":"L1","type":"找不同","tag":"找不同","review":false,"carry":"昨天学了追问细节，今天看两种「被拒绝」。","question":"同一个人被拒两次，两段反应找三处不同，并指出哪一次更有用：\n  A「她说我不合适。算了，可能我真的不行，这个方向不适合我。」\n  B「她说我不合适。我问了具体是哪方面，她说需要能独立带 30 人以上；我确实没带过，下次先带 15 人的试试。」","answer":"三处不同：① A 把拒绝当成对自己的判决，B 把它当成条件不满足；② A 没有获得信息，B 拿到了具体门槛（30 人）；③ A 停止，B 有下一步（先带 15 人）。更有用的是 B——拒绝几乎总是「条件不匹配」，很少是「你不行」。","hint_raw":"① 有一句里出现了数字。② 拒绝通常有具体原因，只是没被问。③ 见答案，下次被拒，先问一句「具体是哪方面」。","record":"我被拒过的那次，具体原因是什么。","migrate":"","out_char":"","hints":["有一句里出现了数字","拒绝通常有具体原因，只是没被问","见答案，下次被拒，先问一句「具体是哪方面」"],"code":"索"},{"date":"2027-08-11","month":8,"day":11,"weekday":"三","level":"L1","type":"九宫格","tag":"九宫格","review":false,"carry":"昨天学了问原因，今天看「我怕的事」。","question":"中心格写「我不敢做的一件事」。八格填：怕什么、最坏会怎样、最坏的概率有多大、真发生了谁能帮我、我有没有做过类似的事、这件事值不值得试、试的成本是什么、如果一年后还不敢，会怎样。","answer":"无标准答案。这道题的方法在「代价核算」：把「怕」拆成最坏结果＋概率＋成本，多数恐惧在这一步会缩小。第 8 格是时间视角，它常让人做出行动决定。","hint_raw":"① 第 2 格要写得具体。② 第 7 格是试的成本，往往比想象的低。③ 见答案，如果成本低于一顿饭钱，就去做。","record":"我怕的那件事，试的成本具体是多少。","migrate":"","out_char":"","hints":["第 2 格要写得具体","第 7 格是试的成本，往往比想象的低","见答案，如果成本低于一顿饭钱，就去做"],"code":"索"},{"date":"2027-08-12","month":8,"day":12,"weekday":"四","level":"L2","type":"一问","tag":"国际青年日｜L2 一问","review":false,"carry":"","question":"- 今日一问（不设标准答案，写下你的第一反应）：青年就业政策里，「见习」和「实习」有什么不一样。","answer":"","hint_raw":"","record":"","migrate":"","out_char":"","hints":[],"code":"索"},{"date":"2027-08-13","month":8,"day":13,"weekday":"五","level":"L4","type":"生活趣味","tag":"国际左撇子日｜L4 生活趣味","review":false,"carry":"","question":"小周是左撇子。早上他右手拿着杯子、左手拿着钥匙，门把手在门的左侧。他要开门，先放下哪只手里的东西？","answer":"**放杯子**。门把手在左侧，左手要腾出来；右手拿杯子不影响。","hint_raw":"","record":"有没有一件「大多数人都这样，而我不」的事。","migrate":"","out_char":"","hints":[],"code":"索"},{"date":"2027-08-14","month":8,"day":14,"weekday":"六","level":"L1","type":"密文破译","tag":"密文破译","review":false,"carry":"昨天看了「不一样」，今天破三句「我不合群」。","question":"请破译下面三句话，并指出哪一句其实是优势：\n  A「宿舍里他们聊的我都插不上话。」\n  B「我不太爱参加聚会，一个人待着更舒服。」\n  C「我做事喜欢一个人从头做到尾，不太会分工。」","answer":"其实是优势的是 B——「一个人待着更舒服」是一种稳定的偏好，多数需要深度专注的工作（写作、设计、编程、研究、手工）都要求这个能力。A 是话题差异（可解决，找共同话题或换圈子）；C 是真短板（分工是职场基本能力，需要练）。","hint_raw":"① 有一句是偏好，不是缺陷。② 有一句是技能缺失。③ 见答案，分清「偏好」和「短板」。","record":"我身上被说成「缺点」的，有几条其实是偏好。","migrate":"","out_char":"","hints":["有一句是偏好，不是缺陷","有一句是技能缺失","见答案，分清「偏好」和「短板」"],"code":"索"},{"date":"2027-08-15","month":8,"day":15,"weekday":"日","level":"L1","type":"九宫格","tag":"九宫格","review":false,"carry":"昨天分清了偏好不好，今天看「我一个人的时候做什么」。","question":"中心格写「没人管我时」。八格填：最常打开的应用、最常看的内容类型、最常反复做的小动作、最久没碰的东西、最近主动搜过的一个问题、一个人在时会做的正经事、一个人在时会做的浪费时间的事、这两类各占多少。","answer":"无标准答案。核心看第 5 格与第 8 格：第 5 格「主动搜过的问题」往往就是你的真实兴趣（不受课程安排影响）；第 8 格的比例，是自我管理的基线数据，不是道德判断。","hint_raw":"① 主动搜过的问题最真实。② 第 8 格只需要一个比例。③ 见答案，把第 5 格的问题记下来，顺着它查一次。","record":"我最近主动搜的那个问题，是什么。","migrate":"","out_char":"","hints":["主动搜过的问题最真实","第 8 格只需要一个比例","见答案，把第 5 格的问题记下来，顺着它查一次"],"code":"索"},{"date":"2027-08-16","month":8,"day":16,"weekday":"一","level":"L1","type":"排序题","tag":"排序题","review":false,"carry":"昨天找到了真兴趣，今天排一次「顺着一个兴趣往下查」。","question":"你对一个话题有兴趣，五个动作请排序：A 先查它的基本概念和范围 B 找三个做这行的人看他们在做什么 C 试做一个最小的产出 D 判断它能不能变成一份工作 E 如果不能，就把它留作爱好，继续用别的方式养活自己。","answer":"参考 A→B→C→D→E。C 是分界线：没做过之前，兴趣只是想象。E 是本册一个重要的态度——兴趣不必都变成职业，很多兴趣变成职业后会消失。","hint_raw":"① 先做一次再判断。② 兴趣可以不变成工作。③ 见答案，注意 E 为什么是「留作爱好」。","record":"我这个兴趣，值得变成工作吗。","migrate":"","out_char":"","hints":["先做一次再判断","兴趣可以不变成工作","见答案，注意 E 为什么是「留作爱好」"],"code":"索"},{"date":"2027-08-17","month":8,"day":17,"weekday":"二","level":"L1","type":"找不同","tag":"找不同","review":false,"carry":"昨天做了判断，今天看两种「爱好变现」。","question":"两个人都喜欢拍照，两段经历找三处不同，并指出哪一个人更可能靠它挣到钱：\n  A「我拍了很多照片，存在手机里，朋友都说好看。」\n  B「我给三个社团拍过活动，收了两次钱，每次两百。我知道一场活动要拍哪几个关键画面。」","answer":"三处不同：① A 没有交付对象，B 有（三个社团）；② A 没有定价，B 有（两百一次）；③ A 不知道「关键画面」，B 知道行业里的交付标准。更可能挣到钱的是 B——市场认的是「知道要交什么」，不是「拍得好看」。","hint_raw":"① 有一句话里有价格。② 交付标准比技术水平更早决定收入。③ 见答案，把你喜欢的事写出「交付什么」。","record":"我喜欢的那件事，交付物具体是什么。","migrate":"","out_char":"","hints":["有一句话里有价格","交付标准比技术水平更早决定收入","见答案，把你喜欢的事写出「交付什么」"],"code":"索"},{"date":"2027-08-18","month":8,"day":18,"weekday":"三","level":"L1","type":"密文破译","tag":"密文破译","review":false,"carry":"昨天学了交付，今天破三句「我要不要读本科」。","question":"请破译下面三句话，并指出哪一句是真正的考虑：\n  A「大家都说要读，那我就读。」\n  B「我这个方向考编和进公办园都要本科，所以我需要读。」\n  C「我不想那么早工作，读两年也挺好。」","answer":"真正的考虑是 B——它指向具体门槛（考编、公办园的学历要求），有明确用途。A 是从众，C 是推迟决定（本身不是错，但要承认这是「缓两年」，不是「为了学历」）。","hint_raw":"① 有一句话里有具体的用人要求。② 「不想那么早工作」需要被承认。③ 见答案，去查你想去的岗位的学历门槛。","record":"我想去的那个地方，学历门槛具体写的是什么。","migrate":"","out_char":"","hints":["有一句话里有具体的用人要求","「不想那么早工作」需要被承认","见答案，去查你想去的岗位的学历门槛"],"code":"索"},{"date":"2027-08-19","month":8,"day":19,"weekday":"四","level":"L1","type":"配对连线","tag":"配对连线","review":false,"carry":"昨天查了门槛，今天连「四种去向配什么准备」。","question":"左边四种毕业去向，右边四种最该提前做的事，请连线：① 考编/考公 ② 进民办园或机构 ③ 专升本 ④ 直接就业但方向未定 —— A 先做一份能展示的作品或试讲 B 提前半年开始刷题与报名节点 C 先去实习两个月，用排除法定方向 D 弄清考试科目与招生计划，早一年准备。","answer":"参考 ①—B、②—A、③—D、④—C。②—A 的要点：民办园和机构最看重「能不能马上上手」，一场试讲或一份作品比学历更有效。③—D 强调「早一年」：专升本的信息差主要在时间节点上。","hint_raw":"① 有一种准备要早一年。② 民办单位看能不能上手。③ 见答案，对照自己现在属于哪一类。","record":"我这四条路里，最可能走的是哪一条，准备做到哪一步了。","migrate":"","out_char":"","hints":["有一种准备要早一年","民办单位看能不能上手","见答案，对照自己现在属于哪一类"],"code":"索"},{"date":"2027-08-20","month":8,"day":20,"weekday":"五","level":"L1","type":"排序题","tag":"排序题","review":false,"carry":"昨天对号入座，今天排一次「定去向」。","question":"你要在三条路里定一条主攻，五个动作请排序：A 写下三条路各自的硬门槛（学历、证、笔试） B 标出自己已经满足和缺的 C 算每条路要投入的时间 D 选一条主攻、一条备选 E 给主攻路线定三个月的第一个节点。","answer":"参考 A→B→C→D→E。B 是分流点：如果三条路的门槛差距很大，选择其实已经被现实决定了。D 的关键是「一条主攻一条备选」，两条主攻等于没有主攻。","hint_raw":"① 先看门槛，再看意愿。② 主攻只能一条。③ 见答案，注意 E 必须是一个可检查的节点。","record":"我主攻的那条路，缺的最硬的一项是什么。","migrate":"","out_char":"","hints":["先看门槛，再看意愿","主攻只能一条","见答案，注意 E 必须是一个可检查的节点"],"code":"索"},{"date":"2027-08-21","month":8,"day":21,"weekday":"六","level":"L1","type":"九宫格","tag":"九宫格","review":false,"carry":"昨天定了主攻，今天看「我离门槛还差多少」。","question":"中心格写「目标岗位的门槛」。八格填：学历、专业限制、证书、笔试科目、面试形式、经验要求、年龄/身高等硬条件、我目前缺的几项。","answer":"无标准答案。要点在第 7 格：硬条件（年龄、身高、视力、户籍）是最先要查的一项，因为它不可通过努力改变，越早知道越好。第 8 格写在最后，作为结论。","hint_raw":"① 先查不可改变的条件。② 缺的项要少于三项才好推进。③ 见答案，把第 8 格写成一句行动。","record":"我缺的那几项里，哪一项最难补。","migrate":"","out_char":"","hints":["先查不可改变的条件","缺的项要少于三项才好推进","见答案，把第 8 格写成一句行动"],"code":"索"},{"date":"2027-08-22","month":8,"day":22,"weekday":"日","level":"L1","type":"找不同","tag":"找不同","review":false,"carry":"昨天看清了缺口，今天看两种「备考」。","question":"两个人在准备同一场考试，两段记录找三处不同，并指出哪一个人更可能通过：\n  A「我每天都在看书，看了三章，感觉都懂了，但一做题就错很多。」\n  B「我先做了两套真题，看错在哪，再回去看对应的三章，第三次做真题对了七成。」","answer":"三处不同：① A 从内容出发，B 从题目出发；② A 的检验是「感觉懂了」，B 的检验是正确率；③ A 没有定位错误，B 定位到了具体章节。更可能通过的是 B——考试考的是「会不会做题」，不是「看没看完」。","hint_raw":"① 有一句话里有「七成」。② 从真题倒推章节更省时间。③ 见答案，把「先看后做」改成「先做后看」。","record":"我复习时，有没有算过正确率。","migrate":"","out_char":"","hints":["有一句话里有「七成」","从真题倒推章节更省时间","见答案，把「先看后做」改成「先做后看」"],"code":"索"},{"date":"2027-08-23","month":8,"day":23,"weekday":"一","level":"L1","type":"密文破译","tag":"处暑｜密文破译","review":false,"carry":"昨天改了复习法，今天破三句「我基础差」。","question":"请破译下面三句话，并指出哪一句是在描述事实：\n  A「我基础太差了，肯定考不上。」\n  B「我上次模考 62 分，主要丢在教育学那部分。」\n  C「别人都比我强。」","answer":"描述事实的是 B——有分数、有失分位置，是可以处理的。A 是结论（且是提前放弃），C 是无法核实的比较。把 A 改写成 B 的格式：「我 X 分，主要丢在 Y」，问题就变成了任务。","hint_raw":"① 有一句话里有分数和位置。② 「都比我强」无法核实。③ 见答案，把你的成绩写成「分数＋失分位置」。","record":"我的分数主要丢在哪一部分。","migrate":"","out_char":"","hints":["有一句话里有分数和位置","「都比我强」无法核实","见答案，把你的成绩写成「分数＋失分位置」"],"code":"索"},{"date":"2027-08-24","month":8,"day":24,"weekday":"二","level":"L1","type":"迷宫","tag":"迷宫","review":false,"carry":"昨天定位了失分，今天走「最后四个月怎么用」的路。","question":"离考试还有四个月，四个岔口：岔口一 全面复习／先攻失分最大的两块；岔口二 每天学新内容／每天一半新一半回看；岔口三 只看书／每周做一次限时模拟；岔口四 一个人闷头学／找一个能互相提问的人。","answer":"参考路径：先攻失分最大的两块→每天一半新一半回看→每周做一次限时模拟→找一个能互相提问的人。第三格是分数的直接来源：限时模拟训练的是「在时间压力下取分」的能力，与「会不会」是两件事。","hint_raw":"① 先攻失分最大的。② 限时模拟不可省。③ 见答案，注意第四格为什么是「互相提问」。","record":"我上一次限时模拟是什么时候，多少分。","migrate":"","out_char":"","hints":["先攻失分最大的","限时模拟不可省","见答案，注意第四格为什么是「互相提问」"],"code":"索"},{"date":"2027-08-25","month":8,"day":25,"weekday":"三","level":"L1","type":"配对连线","tag":"配对连线","review":false,"carry":"昨天排了复习，今天连「四种题型配什么解法」。","question":"左边四种题型，右边四种应对策略，请连线：① 选择题 ② 简答题 ③ 案例分析 ④ 面试问答 —— A 先给框架再填内容 B 先圈关键词再排除 C 先判断考点再分点 D 先想「对方在考什么」再答。","answer":"参考 ①—B、②—C、③—A、④—D。②—C 强调「先判断考点」：简答题的分数来自踩点，写得多不如踩得准。③—A 的框架指「是什么—为什么—怎么办」，先搭骨架再填。","hint_raw":"① 案例题先搭框架。② 简答靠踩点给分。③ 见答案，用自己的考试题型对照一遍。","record":"我最容易丢分的是哪一种题型。","migrate":"","out_char":"","hints":["案例题先搭框架","简答靠踩点给分","见答案，用自己的考试题型对照一遍"],"code":"索"},{"date":"2027-08-26","month":8,"day":26,"weekday":"四","level":"L1","type":"填字格","tag":"填字格","review":false,"carry":"昨天分清了题型，今天填「答题四步」。","question":"横填四格，每格两字：① 先看___（题眼／字数／分值） ② 再列___（要点／例子／开头） ③ 写的时候留___（空行／空白／时间） ④ 最后___（检查／补充／交卷）。","answer":"参考：题眼／要点／空行／检查。第 3 格「留空行」是阅卷友好的做法，方便补充，也让要点更清楚。第 4 格检查的重点是两个：有没有漏题、有没有写错答题位置。","hint_raw":"① 先找题眼。② 留空行方便补。③ 见答案，下次答题按这四步走。","record":"我上次考试漏题了吗。","migrate":"","out_char":"","hints":["先找题眼","留空行方便补","见答案，下次答题按这四步走"],"code":"索"},{"date":"2027-08-27","month":8,"day":27,"weekday":"五","level":"L1","type":"找不同","tag":"找不同","review":false,"carry":"昨天练了答题，今天看两种「模拟考之后」。","question":"两个人模考后都考砸了，两段反应找三处不同，并指出哪一个人四个月后分数会上去：\n  A「考得太差了，我可能真的不适合。先放两天，缓缓再说。」\n  B「考得差，我把错的题分成三类：没背过的、看错的、来不及的。前两类能补，第三类要练速度。」","answer":"三处不同：① A 把分数当成评价，B 把分数当成诊断；② A 没有分类，B 把错误分成三类；③ A 停下，B 有对应解法。四个月后分数会上去的是 B——错题分类是提分最快的一步，因为它把「差」变成了三个具体任务。","hint_raw":"① 有一句话里有「三类」。② 「来不及」是速度问题，不是知识问题。③ 见答案，把你的错题分一次类。","record":"我的错题里，最多的是哪一类。","migrate":"","out_char":"","hints":["有一句话里有「三类」","「来不及」是速度问题，不是知识问题","见答案，把你的错题分一次类"],"code":"索"},{"date":"2027-08-28","month":8,"day":28,"weekday":"六","level":"L1","type":"密文破译","tag":"密文破译","review":false,"carry":"昨天分了类，今天破三句「我尽力了」。","question":"请破译下面三句话，并指出哪一句还有余地：\n  A「我已经尽力了，就这样吧。」\n  B「我每天都学到很晚，真的很努力。」\n  C「我每天学六小时，其中两小时在回看错题，四小时在学新内容。」","answer":"还有余地的是 C——它把时间拆成两块，可以逐块优化（比如错题时间偏少）。A 关闭了改进空间；B 用「努力」替代了「方法」，时间长不等于有效。","hint_raw":"① 有一句话里时间被拆开了。② 「很努力」不是方法。③ 见答案，把你的学习时间拆成两块看看比例。","record":"我的学习时间，新内容和回看的比例是多少。","migrate":"","out_char":"","hints":["有一句话里时间被拆开了","「很努力」不是方法","见答案，把你的学习时间拆成两块看看比例"],"code":"索"},{"date":"2027-08-29","month":8,"day":29,"weekday":"日","level":"L1","type":"排序题","tag":"排序题","review":false,"carry":"昨天拆了时间，今天排一次「考前一周」。","question":"考试前一周，五个动作请排序：A 停止学新内容 B 把错题本过两遍 C 按考试时间做两次全真模拟 D 熟悉考场路线与证件 E 前一天只做轻松回看，早睡。","answer":"参考 A→B→C→D→E。A 在最前是纪律：考前一周学新内容只会增加焦虑。C 的「按考试时间」指上午考就上午练，让身体适应时段。E 的「早睡」比多复习两小时更能提分。","hint_raw":"① 考前不学新东西。② 模拟要按真实时段。③ 见答案，注意 E 为什么在最后。","record":"我上一次大考前一周，是怎么过的。","migrate":"","out_char":"","hints":["考前不学新东西","模拟要按真实时段","见答案，注意 E 为什么在最后"],"code":"索"},{"date":"2027-08-30","month":8,"day":30,"weekday":"一","level":"L1","type":"填字格","tag":"填字格","review":false,"carry":"昨天排了考前一周，今天填「紧张怎么处理」。","question":"横填四格，每格两字：① 手心出汗就___（深呼吸／想结果／看别人） ② 脑子空白就___（停三秒／硬想／放弃） ③ 答不下去就___（跳过／死磕／乱写） ④ 考完一门就___（不对答案／复盘／问人）。","answer":"参考：深呼吸／停三秒／跳过／不对答案。第 4 格是最实用的一条：考完不对答案，是为了保住下一门的状态；对答案的收益极小，代价是情绪。第 3 格「跳过」是分数最大化的选择。","hint_raw":"① 有一格是为了保住下一门。② 卡住时先跳过。③ 见答案，把这四格背下来。","record":"我考完试会不会对答案，结果如何。","migrate":"","out_char":"","hints":["有一格是为了保住下一门","卡住时先跳过","见答案，把这四格背下来"],"code":"索"},{"date":"2027-08-31","month":8,"day":31,"weekday":"二","level":"L1","type":"配对连线","tag":"配对连线","review":false,"carry":"八月最后一天，连「四种情绪配什么处理方式」。","question":"左边四种状态，右边四种处理，请连线：① 学了四个月没进步 ② 看到别人都比我强 ③ 一想到考试就心慌 ④ 突然不想学了 —— A 停一天，什么都做，明天按最小量恢复 B 只看自己的月度数据，不看别人 C 把「慌」写成具体的担心清单 D 承认这是平台期，换一种练习方式。","answer":"参考 ①—D、②—B、③—C、④—A。②—B 的理由：横向比较在备考期没有信息量，只有情绪成本；纵向数据（自己三个月前的正确率）才有用。③—C 把模糊的慌变成条目，条目可以被处理。","hint_raw":"① 平台期需要换练习方式。② 只跟自己比。③ 见答案，把「慌」写成清单。","record":"我今天属于哪一种，用了哪种处理。\n\n---\n\n## 九月｜与世界交手（月字：世）\n\n九月 30 天：L1 24 道；L3 两天（9/27 研学旅行管理与服务、9/30 应用英语）；L2 一问四天（9/8、9/10、9/20、9/21）；9/30 兼季度复盘（出字：界）。","migrate":"","out_char":"","hints":["平台期需要换练习方式","只跟自己比","见答案，把「慌」写成清单"],"code":"索"}]};
+const WEEK = {一:"周一",二:"周二",三:"周三",四:"周四",五:"周五",六:"周六",日:"周日"};
+const LEVEL_NAME = {L1:"L1 通用",L2:"L2 职业",L3:"L3 专业日",L4:"L4 生活",REVIEW:"季度复盘"};
+const MONTH_CN = ["","一","二","三","四","五","六","七","八","九","十","十一","十二"];
+
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+function md(s){
+  return esc(s).replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>");
+}
+
+const days = DATA.days.slice();
+const monthTheme = DATA.month_theme || {};
+const byMonth = {};
+days.forEach(d=>{ (byMonth[d.month]=byMonth[d.month]||[]).push(d); });
+
+/* 统计 */
+(function(){
+  const c = {};
+  days.forEach(d=>c[d.level]=(c[d.level]||0)+1);
+  const scope = DATA.meta && DATA.meta.scope_label ? DATA.meta.scope_label : "全年";
+  const items = [
+    ["范围", scope],
+    ["天数", days.length],
+    ["L1 通用", c.L1||0],
+    ["L2 职业", c.L2||0],
+    ["L3 专业日", c.L3||0],
+    ["L4 生活", c.L4||0],
+    ["复盘日", days.filter(d=>d.review).length]
+  ];
+  document.getElementById("stats").innerHTML = items.map(([k,v])=>`<span class="tag">${k} <b>${v}</b></span>`).join("");
+})();
+
+/* 导航 */
+(function(){
+  const nav = document.getElementById("nav");
+  nav.innerHTML = Object.keys(byMonth).map(m=>{
+    const hasRev = byMonth[m].some(d=>d.review);
+    return `<a class="${hasRev?"rev":""}" href="#m${m}">${m}月${hasRev?"·复盘":""}</a>`;
+  }).join("");
+})();
+
+/* 渲染 */
+function cardHTML(d){
+  const lv = d.level;
+  const id = "c" + d.date.replace(/-/g,"");
+  const hints = (d.hints||[]).map((h,i)=>`<div class="hint" data-i="${i}">${["①","②","③"][i]||"·"} ${md(h)}</div>`).join("");
+  const tipBtn = (d.hints&&d.hints.length)
+    ? `<button onclick="stepHint('${id}')">提示 <span id="${id}-hi">0</span>/${d.hints.length}</button>
+       <button class="ghost" onclick="allHints('${id}')">全提示</button>` : "";
+  const ansBtn = (d.answer && d.answer.trim())
+    ? `<button onclick="toggle('${id}-ans','${id}-ab')" id="${id}-ab">看答案</button>` : "";
+  const revBadge = d.review ? `<span class="badge" style="border-color:var(--gold);color:#7a5f10">复盘</span>` : "";
+  const prof = d.profession ? `<span class="badge">${esc(d.college||"")}·${esc(d.profession)}</span>` : "";
+  const pos = d.position ? `<span class="badge">指向岗位：${esc(d.position)}</span>` : "";
+  const lvName = lv==="L2" ? ("L2 " + (d.type==="完整题"?"完整题":"一问")) : (LEVEL_NAME[lv]||lv);
+  return `<article class="card lv-${lv}${d.review?" review-dot":""}" id="${id}"
+      data-key="${esc([d.date,d.weekday,d.type,d.tag,d.profession,d.position,d.carry,d.question,d.answer,(d.hints||[]).join(" ")].join(" ")).replace(/"/g,"")}">
+    <div class="card-head">
+      <span class="date">${d.month} 月 ${d.day} 日</span>
+      <span class="wd">${esc(WEEK[d.weekday]||("周"+d.weekday))}</span>
+      <span class="badge lv ${lv}">${esc(lvName)}</span>
+      ${d.type && lv!=="L2" ? `<span class="badge type">${esc(d.type)}</span>`:""}
+      ${d.code ? `<span class="badge code">密码字 ${esc(d.code)}</span>`:""}
+      ${revBadge}${prof}${pos}
+    </div>
+    ${d.tag ? `<div class="fest">${esc(d.tag)}</div>`:""}
+    ${d.carry ? `<div class="carry">${md(d.carry)}</div>`:""}
+    <div class="qtext">${md(d.question||"")}</div>
+    ${d.record ? `<div class="record">${md(d.record)}</div>`:""}
+    <div class="btns">
+      ${tipBtn}${ansBtn}
+      ${(d.migrate)?`<button class="ghost" onclick="toggle('${id}-mig','')">通用迁移</button>`:""}
+    </div>
+    <div class="panel" id="${id}-hint">${hints}</div>
+    ${d.answer?`<div class="panel" id="${id}-ans"><h4>答案</h4><div class="answer">${md(d.answer)}</div></div>`:""}
+    ${d.migrate?`<div class="panel" id="${id}-mig"><h4>通用迁移</h4><div class="answer" style="background:#F3F4EE;border-color:var(--line)">${md(d.migrate)}</div></div>`:""}
+  </article>`;
+}
+
+window.toggle = function(pid, bid){
+  const p = document.getElementById(pid); if(!p) return;
+  p.classList.toggle("on");
+  if(bid){ const b=document.getElementById(bid); if(b) b.textContent = p.classList.contains("on")?"收起答案":"看答案"; }
+};
+window.stepHint = function(id){
+  const wrap = document.getElementById(id+"-hint");
+  if(!wrap) return;
+  const next = wrap.querySelector(".hint:not(.on)");
+  if(next){ next.classList.add("on"); wrap.classList.add("on"); }
+  const shown = wrap.querySelectorAll(".hint.on").length;
+  const c = document.getElementById(id+"-hi"); if(c) c.textContent = shown;
+};
+window.allHints = function(id){
+  const wrap = document.getElementById(id+"-hint");
+  if(!wrap) return;
+  wrap.querySelectorAll(".hint").forEach(h=>h.classList.add("on"));
+  wrap.classList.add("on");
+  const c = document.getElementById(id+"-hi"); if(c) c.textContent = wrap.querySelectorAll(".hint.on").length;
+};
+
+(function render(){
+  const main = document.getElementById("main");
+  const months = Object.keys(byMonth).sort((a,b)=>a-b);
+  main.innerHTML = months.map(m=>{
+    const list = byMonth[m];
+    const rev = list.find(d=>d.review);
+    const ch = monthTheme[m] || "";
+    const mdname = ["","一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"][m];
+    return `<section class="month" id="m${m}">
+      <div class="month-head">
+        <span class="num">MONTH ${String(m).padStart(2,"0")}</span>
+        <h2>${[mdname,ch,rev?("复盘 "+rev.code):""].filter(Boolean).join(" · ")}</h2>
+        <span class="ch">${esc(ch)}</span>
+      </div>
+      <div class="cards">${list.map(cardHTML).join("")}</div>
+    </section>`;
+  }).join("");
+})();
+
+/* 搜索 */
+document.getElementById("q").addEventListener("input", function(){
+  const kw = this.value.trim().toLowerCase();
+  document.querySelectorAll("section.month").forEach(sec=>{
+    let n = 0;
+    sec.querySelectorAll(".card").forEach(c=>{
+      const hit = !kw || (c.dataset.key||"").toLowerCase().includes(kw);
+      c.style.display = hit ? "" : "none";
+      if(hit) n++;
+    });
+    sec.style.display = n ? "" : "none";
+  });
+});
+</script>
+</body>
+</html>
